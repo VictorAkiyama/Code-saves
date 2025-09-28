@@ -1,18 +1,30 @@
 package Contapackage;
 
-public class CORRENTE extends CONTA{
+public class CORRENTE extends CONTA_CLIENTE{
+	
+	//Construtor vazio
+	public CORRENTE() {}
+	
+	//Construtor cheio
+    public CORRENTE(String nome, String cpf, double dinheiro, double renda) {
+        super(nome, cpf, dinheiro, renda);
+    }
 	
 	@Override
-	public double Transferir() {
-		return this.dinheiro = dinheiro;
+	public void Transferir(double qtd_transferir, CONTA_CLIENTE conta_destino) {
+		this.setDinheiro(this.getDinheiro() - qtd_transferir);
+		conta_destino.setDinheiro(conta_destino.getDinheiro() + qtd_transferir);
 	}
-	public double Depositar() {
-		return this.dinheiro + dinheiro;
+	public double Depositar(double qtd_depositar) {
+		return this.getDinheiro() + qtd_depositar;
 	}
-	public double Sacar() {
-		return this.dinheiro - dinheiro;
+	public double Sacar(double qtd_sacar) {
+		return this.getDinheiro() - qtd_sacar;
 	}
 	public double Saldo() {
-		return this.dinheiro;
+		return this.getDinheiro();
+	}
+	public double Renda() {
+	    return this.getDinheiro() * renda;
 	}
 }
