@@ -1,15 +1,20 @@
 package Contapackage;
 
-public class main {
+public class Main {
 	public static void main(String[] args) {
 		
-		CONTA conta1 = new POUPANCA();
-		CONTA conta2 = new CORRENTE();
+		CONTA_CLIENTE conta_poupanca = new POUPANCA("Lucas", "666.666.666-66", 2000, 1.005);
+		CONTA_CLIENTE conta_corrente = new CORRENTE("Lucas", "666.666.666-66", 2000, 0);
 		
-		conta1.Transferir();
-		conta1.Saldo();
-		conta2.Saldo();
+		//conta_corrente.setDinheiro(conta_corrente.Transferir(100));
+		conta_corrente.Transferir(100, conta_poupanca);
 		
-		System.out.println(conta1.dinheiro + " " + conta2.dinheiro);
+		conta_poupanca.setDinheiro(conta_poupanca.Depositar(100));
+		conta_poupanca.setDinheiro(conta_poupanca.Renda());
+		
+		conta_corrente.setDinheiro(conta_corrente.Sacar(500));
+		
+		System.out.println("Poupança: " + conta_poupanca.nome + " " + conta_poupanca.cpf + " " + conta_poupanca.Saldo());
+		System.out.println("Corrente: " + conta_corrente.nome + " " + conta_corrente.cpf + " " + conta_corrente.Saldo());
 	}
 }
