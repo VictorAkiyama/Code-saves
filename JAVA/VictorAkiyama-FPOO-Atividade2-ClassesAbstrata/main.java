@@ -6,7 +6,6 @@ public class Main {
 		CONTA_CLIENTE conta_poupanca = new POUPANCA("Lucas", "666.666.666-66", 2000, 1.005);
 		CONTA_CLIENTE conta_corrente = new CORRENTE("Lucas", "666.666.666-66", 2000, 0);
 		
-		//conta_corrente.setDinheiro(conta_corrente.Transferir(100));
 		conta_corrente.Transferir(100, conta_poupanca);
 		
 		conta_poupanca.setDinheiro(conta_poupanca.Depositar(100));
