@@ -24,7 +24,7 @@ public class CORRENTE extends CONTA_CLIENTE{
 	public double Saldo() {
 		return this.getDinheiro();
 	}
-	public void Renda(double renda) {
+	public void Render(double renda) {
 	    this.setDinheiro(getDinheiro() * renda);
 	}
 }
