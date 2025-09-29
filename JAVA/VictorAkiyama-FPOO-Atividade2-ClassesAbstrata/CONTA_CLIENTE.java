@@ -23,7 +23,7 @@ public abstract class CONTA_CLIENTE {
 	public abstract void Depositar(double qtd_depositar);
 	public abstract void Sacar(double qtd_sacar);
 	public abstract double Saldo();
-	public abstract void Renda(double renda);
+	public abstract void Render(double renda);
 	
 	//Gets e Sets
 	public double getDinheiro() {
