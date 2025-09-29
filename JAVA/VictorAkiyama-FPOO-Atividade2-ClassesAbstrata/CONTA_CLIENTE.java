@@ -20,10 +20,10 @@ public abstract class CONTA_CLIENTE {
 	
 	//Métodos
 	public abstract void Transferir(double qtd_transferir, CONTA_CLIENTE conta_destino);
-	public abstract double Depositar(double qtd_depositar);
-	public abstract double Sacar(double qtd_sacar);
+	public abstract void Depositar(double qtd_depositar);
+	public abstract void Sacar(double qtd_sacar);
 	public abstract double Saldo();
-	public abstract double Renda();
+	public abstract void Renda(double renda);
 	
 	//Gets e Sets
 	public double getDinheiro() {
