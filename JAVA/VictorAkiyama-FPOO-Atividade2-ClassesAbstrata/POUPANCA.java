@@ -15,16 +15,16 @@ public class POUPANCA extends CONTA_CLIENTE {
 		this.setDinheiro(this.getDinheiro() - qtd_transferir);
 		conta_destino.setDinheiro(conta_destino.getDinheiro() + qtd_transferir);
 	}
-	public double Depositar(double qtd_depositar) {
-		return this.getDinheiro() + qtd_depositar;
+	public void Depositar(double qtd_depositar) {
+		this.setDinheiro(this.getDinheiro() + qtd_depositar);
 	}
-	public double Sacar(double qtd_sacar) {
-		return this.getDinheiro() - qtd_sacar;
+	public void Sacar(double qtd_sacar) {
+		this.setDinheiro(this.getDinheiro() - qtd_sacar);
 	}
 	public double Saldo() {
 		return this.getDinheiro();
 	}
-	public double Renda() {
-	    return this.getDinheiro() * renda;
+	public void Renda(double renda) {
+	    this.setDinheiro(getDinheiro() * renda);
 	}
 }
