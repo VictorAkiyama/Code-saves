@@ -9,7 +9,7 @@ public class Main {
 		conta_corrente.Transferir(100, conta_poupanca);
 		
 		conta_poupanca.Depositar(100);
-		conta_poupanca.Renda(conta_poupanca.renda);
+		conta_poupanca.Render(conta_poupanca.renda);
 		
 		conta_corrente.Sacar(500);
 		
