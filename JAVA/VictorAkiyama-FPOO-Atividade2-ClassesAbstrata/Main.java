@@ -8,10 +8,10 @@ public class Main {
 		
 		conta_corrente.Transferir(100, conta_poupanca);
 		
-		conta_poupanca.setDinheiro(conta_poupanca.Depositar(100));
-		conta_poupanca.setDinheiro(conta_poupanca.Renda());
+		conta_poupanca.Depositar(100);
+		conta_poupanca.Renda(conta_poupanca.renda);
 		
-		conta_corrente.setDinheiro(conta_corrente.Sacar(500));
+		conta_corrente.Sacar(500);
 		
 		System.out.println("Poupança: " + conta_poupanca.nome + " " + conta_poupanca.cpf + " " + conta_poupanca.Saldo());
 		System.out.println("Corrente: " + conta_corrente.nome + " " + conta_corrente.cpf + " " + conta_corrente.Saldo());
