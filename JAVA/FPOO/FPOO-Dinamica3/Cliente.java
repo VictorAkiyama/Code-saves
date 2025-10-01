@@ -17,9 +17,23 @@ public class Cliente {
     
     //Gets e Sets
     public String getcpfCliente() {
-        return this.getcpfCliente;
+        return this.cpfCliente;
     }
     public void setcpfCliente() {
         this.cpfCliente = cpfCliente;
+    }
+    
+    public EnderecoPedido getendereco() {
+        return this.endereco;
+    }
+    public void setendereco() {
+        this.endereco = endereco;
+    }
+    
+    public String getnome() {
+        return this.nome;
+    }
+    public void setnome() {
+        this.nome = nome;
     }
 }
