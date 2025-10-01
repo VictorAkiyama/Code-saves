@@ -23,6 +23,12 @@ public class Entregador {
 	}
 	
 	//Gets
+	public String getidTrabalhador() {
+		return this.idTrabalhador
+	}
+	public String nome() {
+		return this.nome
+	}
 	public String getrua() {
 		return this.rua;
 	}
@@ -40,6 +46,12 @@ public class Entregador {
 	}
 	
 	//Sets
+	public String setidTrabalhador() {
+		return this.idTrabalhador = idTrabalhador;
+	}
+	public String setnome() {
+		return this.nome = nome;
+	}
 	public String setrua() {
 		return this.rua = rua;
 	}
