@@ -1,4 +1,4 @@
-public abstract class Conta_Cliente {
+public abstract class ContaCliente {
 	
 	protected String nome;
 	protected String cpf;
@@ -8,10 +8,10 @@ public abstract class Conta_Cliente {
 	protected double renda;
 	
 	//Construtor vazio
-	public Conta_Cliente() {}
+	public ContaCliente() {}
 	
 	//Construtor cheio
-    public Conta_Cliente(String nome, String cpf, String codigo, String senha, double dinheiro, double renda) {
+    public ContaCliente(String nome, String cpf, String codigo, String senha, double dinheiro, double renda) {
         this.nome = nome;
         this.cpf = cpf;
         this.codigo = codigo;
