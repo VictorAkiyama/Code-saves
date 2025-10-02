@@ -21,7 +21,7 @@ public abstract class ContaCliente {
     }
 	
 	//Métodos
-	public abstract void transferir(double qtd_transferir, CONTA_CLIENTE conta_destino);
+	public abstract void transferir(double qtd_transferir, ContaCliente conta_destino);
 	public abstract void depositar(double qtd_depositar);
 	public abstract void sacar(double qtd_sacar);
 	public abstract double saldo();
