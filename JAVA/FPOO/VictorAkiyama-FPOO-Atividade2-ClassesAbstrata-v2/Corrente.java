@@ -14,7 +14,7 @@ public class Corrente extends ContaCliente{
     }
 	
 	@Override
-	public void transferir(double qtd_transferir, ContaCliente contaDestino) {
+	public void transferir(double qtd_transferir, ContaCliente conta_destino) {
 		this.setDinheiro(this.getDinheiro() - qtd_transferir);
 		conta_destino.setDinheiro(conta_destino.getDinheiro() + qtd_transferir);
 	}
