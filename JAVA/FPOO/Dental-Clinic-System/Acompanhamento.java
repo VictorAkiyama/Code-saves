@@ -3,12 +3,12 @@ package SistemaClinicaOdontologicaPackage;
 public class Acompanhamento {
 
 	public Consulta consulta;
-	public double horario;
+	public int horario;
 	
 	//construtor
 	public Acompanhamento() {};
 	
-	public Acompanhamento(Consulta consulta, double horario) {
+	public Acompanhamento(Consulta consulta, int horario) {
 		this.consulta = consulta;
 		this.horario = horario;
 	}
@@ -22,7 +22,25 @@ public class Acompanhamento {
 		return acompanhamento;
 	}
 	
-	public void remarcar() {};
+	public Acompanhamento remarcar(Consulta consulta, int horario) {
+		Acompanhamento acompanhamento = new Acompanhamento(consulta, horario);
+		if (consulta != null) {
+			System.out.println("Acompanhamento remarcado com Dr." + consulta.dentista.nome + ", para o paciente: " + consulta.paciente.nome + " às " + horario + ":00.");
+		}
+		return acompanhamento;
+	}
 	
-	public void cancelar() {};
-}
+	public Acompanhamento cancelar(Consulta consulta) {
+		Acompanhamento acompanhamento = new Acompanhamento(consulta, horario);
+		if (consulta != null) {
+			System.out.println("Acompanhamento de consulta: " + consulta.id_consulta + " cancelado.");
+		}
+		return acompanhamento;
+	}
+	
+	//para mostrar acompanhamento ao chama-lo
+	@Override
+	public String toString() {
+		return "Acompanhamento da consulta marcado às: " + horario + ":00";
+	}
+ }
