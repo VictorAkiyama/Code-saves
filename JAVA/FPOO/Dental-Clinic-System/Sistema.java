@@ -6,8 +6,8 @@ public class Sistema {
 	public Sistema() {}
 	
 	//métodos
-	public Consulta CriarConsulta(Dentista dentista, Paciente paciente, int horario, String detalhes, Acompanhamento acompanhamentos[]) {
-        Consulta novaConsulta = new Consulta(dentista, paciente, horario, detalhes, acompanhamentos);
+	public Consulta CriarConsulta(int id_consulta, Dentista dentista, Paciente paciente, int horario, String detalhes, Acompanhamento acompanhamento) {
+        Consulta novaConsulta = new Consulta(id_consulta, dentista, paciente, horario, detalhes, acompanhamento);
         return novaConsulta;
     }
 	public Consulta CriarConsulta() {
@@ -22,6 +22,8 @@ public class Sistema {
 		System.out.println("           Opção 2: Remarcar Consulta           ");
 		System.out.println("           Opção 3: Cancelar Consulta           ");
 		System.out.println("           Opção 4: Marcar acompanhamento       ");
+		System.out.println("           Opção 5: Remarcar acompanhamento     ");
+		System.out.println("           Opção 6: Cancelar acompanhamento     ");
 		System.out.println("================================================");
 		if (consulta != null) {
 			if (opcao == 1) {
@@ -38,7 +40,22 @@ public class Sistema {
 				System.out.println("Opção para marcar acompanhamento selecionada\nQual das consultas deseja marcar um acompanhamento:");
 				sistema.mostrarListadeConsultas(consultaLista);
 				//simula o usuário selecionando uma das consultas
-				consulta.acompanhamento(consultaLista, 0);
+				consulta = consulta.marcarAcompanhamento(consultaLista, 0);
+				return consulta;
+			}
+			else if (opcao == 5) {
+				System.out.println("Opção para remarcar acompanhamento selecionada\nQual das consultas deseja remarcar um acompanhamento:");
+				sistema.mostrarListadeConsultas(consultaLista);
+				//simula o usuário selecionando uma das consultas
+				consulta = consulta.remarcarAcompanhamento(consultaLista, 0);
+				return consulta;
+			}
+			else if (opcao == 6) {
+				System.out.println("Opção para cancelar acompanhamento selecionada\nQual das consultas deseja cancelar o acompanhamento:");
+				sistema.mostrarListadeConsultas(consultaLista);
+				//simula o usuário selecionando uma das consultas
+				consulta = consulta.cancelarAcompanhamento(consultaLista, 0);
+				return consulta;
 			}
 			else {
 				System.out.println(opcao + " Não é uma opção válida, tente novamente");
@@ -69,7 +86,7 @@ public class Sistema {
 				System.out.println(i + " Nenhuma consulta marcada aqui.");
 			}
 			else {
-				System.out.println(i + " " + consultaLista[i].dentista.nome + ", " + consultaLista[i].paciente.nome + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes + ";");
+				System.out.println(i + " " + consultaLista[i].id_consulta + ", " + consultaLista[i].dentista.nome + ", " + consultaLista[i].paciente.nome + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes + ", " + consultaLista[i].acompanhamento + ";");
 			}
 		}
 	}
