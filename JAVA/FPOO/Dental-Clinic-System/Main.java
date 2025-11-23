@@ -16,16 +16,22 @@ public class Main {
 		//mostra lista de consultas
 		sistema.mostrarListadeConsultas(consultaLista);
 		
-		/*	TESTES	*/
+		/*	OUTRAS SIMULAÇÕES	*/
+		
+		//simulação de marcar acompanhamento
+		consultaInteracao = sistema.interacaoConsulta(4, consulta, sistema, consultaLista);
+		sistema.mostrarListadeConsultas(consultaLista);
+		
+		//simulação de remarcar acompanhamento
+		consultaInteracao = sistema.interacaoConsulta(5, consulta, sistema, consultaLista);
+		sistema.mostrarListadeConsultas(consultaLista);
+		
+		//simulação de cancelar acompanhamento
+		consultaInteracao = sistema.interacaoConsulta(6, consulta, sistema, consultaLista);
+		sistema.mostrarListadeConsultas(consultaLista);
 		
 		//simulação de cancelamento da consulta
-		//consultaInteracao = sistema.interacaoConsulta(3, consulta, sistema, consultaLista);
-		
-		//mostra lista de consultas
-		//sistema.mostrarListadeConsultas(consultaLista);
-		
-		//simulação de criar acompanhamento
-		consultaInteracao = sistema.interacaoConsulta(4, consulta, sistema, consultaLista);
-		
+		consultaInteracao = sistema.interacaoConsulta(3, consulta, sistema, consultaLista);
+		sistema.mostrarListadeConsultas(consultaLista);
 	}
 }
