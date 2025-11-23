@@ -1,23 +1,25 @@
 package SistemaClinicaOdontologicaPackage;
 
-public class Consulta {
+public class Consulta implements Atendimento{
 
+	public int id_consulta;
 	public Dentista dentista;
     public Paciente paciente;
     public int horario;
     public String detalhes;
-    public Acompanhamento acompanhamentos;
+    public Acompanhamento acompanhamento;
     
     //construtor vazio
     public Consulta() {}
     
     //construtor 
-    public Consulta(Dentista dentista, Paciente paciente, int horario, String detalhes, Acompanhamento acompanhamentos[]){
+    public Consulta(int id_consulta, Dentista dentista, Paciente paciente, int horario, String detalhes, Acompanhamento acompanhamento){
+    	this.id_consulta = id_consulta;
         this.dentista = dentista;
         this.paciente = paciente;
         this.horario = horario;
         this.detalhes = detalhes;
-        this.acompanhamentos = acompanhamentos[0];
+        this.acompanhamento = acompanhamento;
     }
     
     //métodos
@@ -26,11 +28,11 @@ public class Consulta {
     	//simulação do usuário digitando os dados
     	Dentista dentista = new Dentista("Luis", "M", "Mestrado", "Odontopediatria");
     	Paciente paciente = new Paciente("Ricardo", "M");
-    	Acompanhamento acompanhamento[] = new Acompanhamento[10];
-    	Consulta consultaSimulacao = sistema.CriarConsulta(dentista, paciente, 15, "Implante dentário", acompanhamento);
+    	Acompanhamento acompanhamento = new Acompanhamento();
+    	Consulta consultaSimulacao = sistema.CriarConsulta(2355, dentista, paciente, 15, "Implante dentário", acompanhamento);
     	
     	if (consultaSimulacao.paciente != null && consultaSimulacao.dentista != null) {
-    		System.out.println("\nConsulta marcada com Dr." + consultaSimulacao.dentista.nome + " para " + consultaSimulacao.paciente.nome + " para às " + consultaSimulacao.horario + ":00\nDetalhes: " + consultaSimulacao.detalhes + "\n");
+    		System.out.println("\nConsulta " + consultaSimulacao.id_consulta + ", marcada com Dr." + consultaSimulacao.dentista.nome + " para " + consultaSimulacao.paciente.nome + " para às " + consultaSimulacao.horario + ":00\nDetalhes: " + consultaSimulacao.detalhes + "\n");
     	}
     	else {
     		System.out.println("Erro de agendamento");
@@ -46,7 +48,7 @@ public class Consulta {
     	int i, j;
     	for (i = 0, j = 1; i < 10; i++, j++) {
     		if (consultaLista[i] != null) {
-    			System.out.println("Opção" + j + ": " + "Consulta " + i + " - " + consultaLista[i].dentista.nome + ", " + consultaLista[i].paciente.nome + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes);
+    			System.out.println("Opção" + j + ": " + "Consulta " + i + " - " + consultaLista[i].id_consulta + ", "+ consultaLista[i].dentista.nome + ", " + consultaLista[i].paciente.nome + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes + ", " + consultaLista[i].acompanhamento);
     		}
     		else {
     			System.out.println("Opção" + j + ": " + "Consulta " + i + " - " + consultaLista[i]);
@@ -65,10 +67,27 @@ public class Consulta {
     	return new Consulta();
     }
     
-    public void acompanhamento(Consulta consultaLista[], int opcao2) {
+    public Consulta marcarAcompanhamento(Consulta consultaLista[], int opcao2) {
     	Acompanhamento novoAcompanhamento = new Acompanhamento();
     	//simula o usuário marcando um retorno
-    	Consulta consulta = consultaLista[opcao2]; 
-    	novoAcompanhamento.marcar(consulta, 9);
+    	Consulta consulta = consultaLista[opcao2];
+    	consulta.acompanhamento = novoAcompanhamento.marcar(consulta, 9);
+    	return consulta;
+    }
+    
+    public Consulta remarcarAcompanhamento(Consulta consultaLista[], int opcao2) {
+    	Acompanhamento novoAcompanhamento = new Acompanhamento();
+    	//simula o usuário remarcando um retorno
+    	Consulta consulta = consultaLista[opcao2];
+    	consulta.acompanhamento = novoAcompanhamento.remarcar(consulta, 13);;
+    	return consulta;
+    }
+    
+    public Consulta cancelarAcompanhamento(Consulta consultaLista[], int opcao2) {
+    	Acompanhamento novoAcompanhamento = new Acompanhamento();
+    	//simula o usuário remarcando um retorno
+    	Consulta consulta = consultaLista[opcao2];
+    	consulta.acompanhamento = novoAcompanhamento.cancelar(consulta);;
+    	return consulta;
     }
 }
