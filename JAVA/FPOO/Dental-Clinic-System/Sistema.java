@@ -6,8 +6,8 @@ public class Sistema {
 	public Sistema() {}
 	
 	//métodos
-	public Consulta CriarConsulta(int id_consulta, Dentista dentista, Paciente paciente, int horario, String detalhes, Acompanhamento acompanhamento) {
-        Consulta novaConsulta = new Consulta(id_consulta, dentista, paciente, horario, detalhes, acompanhamento);
+	public Consulta CriarConsulta(int id_consulta, Dentista dentista, Paciente paciente, int horario, String detalhes, Acompanhamento acompanhamento, Pagamento pagamento) {
+        Consulta novaConsulta = new Consulta(id_consulta, dentista, paciente, horario, detalhes, acompanhamento, pagamento);
         return novaConsulta;
     }
 	public Consulta CriarConsulta() {
@@ -86,7 +86,7 @@ public class Sistema {
 				System.out.println(i + " Nenhuma consulta marcada aqui.");
 			}
 			else {
-				System.out.println(i + " " + consultaLista[i].id_consulta + ", " + consultaLista[i].dentista.nome + ", " + consultaLista[i].paciente.nome + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes + ", " + consultaLista[i].acompanhamento + ";");
+				System.out.println(i + " " + consultaLista[i].id_consulta + ", " + consultaLista[i].dentista.nome + ", " + consultaLista[i].paciente.nome + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes + ", " + consultaLista[i].acompanhamento + ", " + consultaLista[i].getpagamento() + ";");
 			}
 		}
 	}
