@@ -8,31 +8,33 @@ public class Consulta implements Atendimento{
     public int horario;
     public String detalhes;
     public Acompanhamento acompanhamento;
+    private Pagamento pagamento;
     
     //construtor vazio
     public Consulta() {}
     
     //construtor 
-    public Consulta(int id_consulta, Dentista dentista, Paciente paciente, int horario, String detalhes, Acompanhamento acompanhamento){
+    public Consulta(int id_consulta, Dentista dentista, Paciente paciente, int horario, String detalhes, Acompanhamento acompanhamento, Pagamento pagamento){
     	this.id_consulta = id_consulta;
         this.dentista = dentista;
         this.paciente = paciente;
         this.horario = horario;
         this.detalhes = detalhes;
         this.acompanhamento = acompanhamento;
+        this.pagamento = pagamento;
     }
     
     //métodos
     public Consulta marcar(Consulta consulta, Sistema sistema) {
-    	System.out.println("\nDigite o nome do Doutor, paciente, horário e detalhes da consulta:  ");
+    	System.out.println("\nDigite o nome do Doutor, paciente, horário, detalhes e forma de pagamento da consulta:  ");
     	//simulação do usuário digitando os dados
     	Dentista dentista = new Dentista("Luis", "M", "Mestrado", "Odontopediatria");
     	Paciente paciente = new Paciente("Ricardo", "M");
+    	Pagamento pagamento = new Pagamento(150.00, consulta, "Pix");
     	Acompanhamento acompanhamento = new Acompanhamento();
-    	Consulta consultaSimulacao = sistema.CriarConsulta(2355, dentista, paciente, 15, "Implante dentário", acompanhamento);
-    	
+    	Consulta consultaSimulacao = sistema.CriarConsulta(2355, dentista, paciente, 15, "Implante dentário", acompanhamento, pagamento);
     	if (consultaSimulacao.paciente != null && consultaSimulacao.dentista != null) {
-    		System.out.println("\nConsulta " + consultaSimulacao.id_consulta + ", marcada com Dr." + consultaSimulacao.dentista.nome + " para " + consultaSimulacao.paciente.nome + " para às " + consultaSimulacao.horario + ":00\nDetalhes: " + consultaSimulacao.detalhes + "\n");
+    		System.out.println("\nConsulta " + consultaSimulacao.id_consulta + ", marcada com Dr." + consultaSimulacao.dentista.nome + " para " + consultaSimulacao.paciente.nome + " para às " + consultaSimulacao.horario + ":00\nDetalhes: " + consultaSimulacao.detalhes + ", " + consultaSimulacao.pagamento + "\n");
     	}
     	else {
     		System.out.println("Erro de agendamento");
@@ -48,7 +50,7 @@ public class Consulta implements Atendimento{
     	int i, j;
     	for (i = 0, j = 1; i < 10; i++, j++) {
     		if (consultaLista[i] != null) {
-    			System.out.println("Opção" + j + ": " + "Consulta " + i + " - " + consultaLista[i].id_consulta + ", "+ consultaLista[i].dentista.nome + ", " + consultaLista[i].paciente.nome + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes + ", " + consultaLista[i].acompanhamento);
+    			System.out.println("Opção" + j + ": " + "Consulta " + i + " - " + consultaLista[i].id_consulta + ", "+ consultaLista[i].dentista.nome + ", " + consultaLista[i].paciente.nome + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes + ", " + consultaLista[i].acompanhamento + ", " + consultaLista[i].pagamento + ";");
     		}
     		else {
     			System.out.println("Opção" + j + ": " + "Consulta " + i + " - " + consultaLista[i]);
@@ -89,5 +91,14 @@ public class Consulta implements Atendimento{
     	Consulta consulta = consultaLista[opcao2];
     	consulta.acompanhamento = novoAcompanhamento.cancelar(consulta);;
     	return consulta;
+    }
+    
+    //gets e sets
+    public Pagamento getpagamento() {
+    	return pagamento;
+    }
+    
+    public void setpagamento(double valor, Consulta consulta, String forma) {
+    	this.pagamento = new Pagamento(valor, consulta, forma);
     }
 }
