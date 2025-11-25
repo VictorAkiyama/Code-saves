@@ -45,7 +45,7 @@ public class Consulta implements Atendimento{
     
     public Consulta remarcar(Consulta consulta, Sistema sistema, Consulta consultaInteracao, Agenda agenda) {
     	//remove da agenda o horario da consulta antiga
-    	sistema.removerHorarioConsultaAgenda(consultaInteracao, agenda);
+    	sistema.chamaRemoverHorarioConsultaAgenda(consultaInteracao, agenda);
     	
     	System.out.println("\nDigite o nome do Doutor, paciente, horário, detalhes e forma de pagamento da consulta:  ");
     	//simulação do usuário digitando os dados
