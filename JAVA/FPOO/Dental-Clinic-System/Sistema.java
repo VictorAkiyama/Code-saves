@@ -77,6 +77,19 @@ public class Sistema {
 		return consultaLista[i];
 	}
 	
+	public Consulta colocarConsultaRemarcadaEmLista(Consulta consultaInteracao, Consulta consultaLista[]) {
+		int i;
+		for (i = 0; i < 10; i++) {
+			if (consultaInteracao.id_consulta == consultaLista[i].id_consulta) {
+				consultaLista[i] = consultaInteracao;
+				//sai do loop
+				return consultaLista[i];
+			}
+		}
+		//limpa consultaInteracao
+		return consultaLista[i];
+	}
+	
 	public void mostrarListadeConsultas(Consulta consultaLista[]) {
 		int i;
 		System.out.println("\nLista de consultas:");
@@ -90,237 +103,27 @@ public class Sistema {
 		}
 	}
 	
-	public void colocaHorarioConsultaAgenda(Consulta consultaInteracao, Agenda agenda) {
-		switch(consultaInteracao.horario) {
-			case 8:
-				agenda.hora8 = true;
-				break;
-			case 9:
-				agenda.hora9 = true;
-				break;
-			case 10:
-				agenda.hora10 = true;
-				break;
-			case 11:
-				agenda.hora11 = true;
-				break;
-			case 12:
-				agenda.hora12 = true;
-				break;
-			case 13:
-				agenda.hora13 = true;
-				break;
-			case 14:
-				agenda.hora14 = true;
-				break;
-			case 15:
-				agenda.hora15 = true;
-				break;
-			case 16:
-				agenda.hora16 = true;
-				break;
-			case 17:
-				agenda.hora17 = true;
-				break;
-			case 18:
-				agenda.hora18 = true;
-				break;
-			default:
-				System.out.println("\nO horário de consulta não é equivalente aos disponíveis na agenda.");
-		}
+	public void chamaColocaHorarioConsultaAgenda(Consulta consultaInteracao, Agenda agenda) {
+		agenda.colocaHorarioConsultaAgenda(consultaInteracao);
 	}
 	
-	public void removerHorarioConsultaAgenda(Consulta consultaInteracao, Agenda agenda) {
-		switch(consultaInteracao.horario) {
-			case 8:
-				agenda.hora8 = false;
-				break;
-			case 9:
-				agenda.hora9 = false;
-				break;
-			case 10:
-				agenda.hora10 = false;
-				break;
-			case 11:
-				agenda.hora11 = false;
-				break;
-			case 12:
-				agenda.hora12 = false;
-				break;
-			case 13:
-				agenda.hora13 = false;
-				break;
-			case 14:
-				agenda.hora14 = false;
-				break;
-			case 15:
-				agenda.hora15 = false;
-				break;
-			case 16:
-				agenda.hora16 = false;
-				break;
-			case 17:
-				agenda.hora17 = false;
-				break;
-			case 18:
-				agenda.hora18 = false;
-				break;
-			default:
-				System.out.println("\nO horário de consulta não é equivalente aos ocupados na agenda.");
-		}
+	public void chamaRemoverHorarioConsultaAgenda(Consulta consultaInteracao, Agenda agenda) {
+		agenda.removerHorarioConsultaAgenda(consultaInteracao);
 	}
 	
-	public void colocaHorarioAcompanhamentoAgenda(Consulta consultaInteracao, Agenda agenda) {
-		switch(consultaInteracao.acompanhamento.horario) {
-			case 8:
-				agenda.hora8 = true;
-				break;
-			case 9:
-				agenda.hora9 = true;
-				break;
-			case 10:
-				agenda.hora10 = true;
-				break;
-			case 11:
-				agenda.hora11 = true;
-				break;
-			case 12:
-				agenda.hora12 = true;
-				break;
-			case 13:
-				agenda.hora13 = true;
-				break;
-			case 14:
-				agenda.hora14 = true;
-				break;
-			case 15:
-				agenda.hora15 = true;
-				break;
-			case 16:
-				agenda.hora16 = true;
-				break;
-			case 17:
-				agenda.hora17 = true;
-				break;
-			case 18:
-				agenda.hora18 = true;
-				break;
-			default:
-				System.out.println("\nO horário do acompanhamento não é equivalente aos disponíveis na agenda.");
-		}
+	public void chamaColocaHorarioAcompanhamentoAgenda(Consulta consultaInteracao, Agenda agenda) {
+		agenda.colocaHorarioAcompanhamentoAgenda(consultaInteracao);
 	}
 	
-	public void removerHorarioAcompanhamentoAgenda(Consulta consultaInteracao, Agenda agenda) {
-		switch(consultaInteracao.acompanhamento.horario) {
-			case 8:
-				agenda.hora8 = false;
-				break;
-			case 9:
-				agenda.hora9 = false;
-				break;
-			case 10:
-				agenda.hora10 = false;
-				break;
-			case 11:
-				agenda.hora11 = false;
-				break;
-			case 12:
-				agenda.hora12 = false;
-				break;
-			case 13:
-				agenda.hora13 = false;
-				break;
-			case 14:
-				agenda.hora14 = false;
-				break;
-			case 15:
-				agenda.hora15 = false;
-				break;
-			case 16:
-				agenda.hora16 = false;
-				break;
-			case 17:
-				agenda.hora17 = false;
-				break;
-			case 18:
-				agenda.hora18 = false;
-				break;
-			default:
-				System.out.println("\nO horário do acompanhamento não é equivalente aos ocupados na agenda.");
-		}
+	public void chamaRemoverHorarioAcompanhamentoAgenda(Consulta consultaInteracaoAnterior, Agenda agenda) {
+		agenda.removerHorarioAcompanhamentoAgenda(consultaInteracaoAnterior);
 	}
 	
-	public void mostrarAgenda(Agenda agenda) {
-		System.out.println("\nAgenda:");
-		if(agenda.hora8 == false) {
-			System.out.println("8 horas: Disponível");
-		} else {
-			System.out.println("8 horas: Ocupado");
-		}
-		if(agenda.hora9 == false) {
-			System.out.println("9 horas: Disponível");
-		} else {
-			System.out.println("9 horas: Ocupado");
-		}
-		if(agenda.hora10 == false) {
-			System.out.println("10 horas: Disponível");
-		} else {
-			System.out.println("10 horas: Ocupado");
-		}
-		if(agenda.hora11 == false) {
-			System.out.println("11 horas: Disponível");
-		} else {
-			System.out.println("11 horas: Ocupado");
-		}
-		if(agenda.hora12 == false) {
-			System.out.println("12 horas: Disponível");
-		} else {
-			System.out.println("12 horas: Ocupado");
-		}
-		if(agenda.hora13 == false) {
-			System.out.println("13 horas: Disponível");
-		} else {
-			System.out.println("13 horas: Ocupado");
-		}
-		if(agenda.hora14 == false) {
-			System.out.println("14 horas: Disponível");
-		} else {
-			System.out.println("14 horas: Ocupado");
-		}
-		if(agenda.hora15 == false) {
-			System.out.println("15 horas: Disponível");
-		} else {
-			System.out.println("15 horas: Ocupado");
-		}
-		if(agenda.hora16 == false) {
-			System.out.println("16 horas: Disponível");
-		} else {
-			System.out.println("16 horas: Ocupado");
-		}
-		if(agenda.hora17 == false) {
-			System.out.println("17 horas: Disponível");
-		} else {
-			System.out.println("17 horas: Ocupado");
-		}
-		if(agenda.hora18 == false) {
-			System.out.println("18 horas: Disponível");
-		} else {
-			System.out.println("18 horas: Ocupado");
-		}
+	public void chamaMostrarAgenda(Agenda agenda) {
+		agenda.mostrarAgenda();
 	}
 	
-	public void LimpaAgenda(Agenda agenda) {
-		agenda.hora8 = false;
-		agenda.hora9 = false;
-		agenda.hora10 = false;
-		agenda.hora11 = false;
-		agenda.hora12 = false;
-		agenda.hora13 = false;
-		agenda.hora14 = false;
-		agenda.hora15 = false;
-		agenda.hora16 = false;
-		agenda.hora17 = false;
-		agenda.hora18 = false;
-		System.out.println("\nA agenda foi limpa.");
+	public void chamaLimpaAgenda(Agenda agenda) {
+		agenda.LimpaAgenda();
 	}
 }
