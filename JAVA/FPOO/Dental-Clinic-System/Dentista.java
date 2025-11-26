@@ -2,7 +2,7 @@ package SistemaClinicaOdontologicaPackage;
 
 public class Dentista extends Profissional{
 	
-	public String capacitacao;
+	private String capacitacao;
 	
 	//construtor
 	public Dentista() {}
@@ -11,4 +11,12 @@ public class Dentista extends Profissional{
         super(nome, genero, certificacoes);
         this.capacitacao = capacitacao;
     }
+	
+	//gets e sets
+	public String getcapacitacao() {
+		return capacitacao;
+	}
+	public void setcapacticacao(String capacitacao) {
+		this.capacitacao = capacitacao;
+	}
 }
