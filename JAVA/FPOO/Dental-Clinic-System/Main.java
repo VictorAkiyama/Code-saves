@@ -6,6 +6,9 @@ public class Main {
 		Sistema sistema = new Sistema();
 		Consulta consulta = new Consulta();
 		Consulta consultaInteracao = new Consulta();
+		Acompanhamento acompanhamentoConsultaInteracaoAnteriorPasso1 = new Acompanhamento();
+		Consulta consultaAcompanhamento = new Consulta();
+		int horarioAcompanhamento;
 		Consulta consultaInteracaoAnterior = new Consulta();
 		Consulta consultaLista[] = new Consulta[10];
 		Agenda agenda = new Agenda();
@@ -35,7 +38,12 @@ public class Main {
 		sistema.chamaMostrarAgenda(agenda);
 		
 		//simulação de remarcar acompanhamento
-		consultaInteracaoAnterior.acompanhamento = consultaInteracao.acompanhamento;
+			//parte para pegar acompanhamento de uma consulta para outra, assim o remover horario do acompanhamento na agenda possa ter a consultaInteracao
+		acompanhamentoConsultaInteracaoAnteriorPasso1 = consultaInteracao.getacompanhamento();
+		consultaAcompanhamento = acompanhamentoConsultaInteracaoAnteriorPasso1.getconsulta();
+		horarioAcompanhamento = acompanhamentoConsultaInteracaoAnteriorPasso1.gethorario();
+		consultaInteracaoAnterior.setacompanhamento(consultaAcompanhamento, horarioAcompanhamento);
+		
 		consultaInteracao = sistema.interacaoConsulta(5, consulta, sistema, consultaLista, consultaInteracao, agenda);
 		sistema.chamaRemoverHorarioAcompanhamentoAgenda(consultaInteracaoAnterior, agenda);
 		sistema.chamaColocaHorarioAcompanhamentoAgenda(consultaInteracao, agenda);
@@ -43,7 +51,12 @@ public class Main {
 		sistema.chamaMostrarAgenda(agenda);
 		
 		//simulação de cancelar acompanhamento
-		consultaInteracaoAnterior.acompanhamento = consultaInteracao.acompanhamento;
+			//parte para pegar acompanhamento de uma consulta para outra, assim o remover horario do acompanhamento na agenda possa ter a consultaInteracao
+		acompanhamentoConsultaInteracaoAnteriorPasso1 = consultaInteracao.getacompanhamento();
+		consultaAcompanhamento = acompanhamentoConsultaInteracaoAnteriorPasso1.getconsulta();
+		horarioAcompanhamento = acompanhamentoConsultaInteracaoAnteriorPasso1.gethorario();
+		consultaInteracaoAnterior.setacompanhamento(consultaAcompanhamento, horarioAcompanhamento);
+		
 		consultaInteracao = sistema.interacaoConsulta(6, consulta, sistema, consultaLista, consultaInteracao, agenda);
 		sistema.chamaRemoverHorarioAcompanhamentoAgenda(consultaInteracaoAnterior, agenda);
 		sistema.mostrarListadeConsultas(consultaLista);
