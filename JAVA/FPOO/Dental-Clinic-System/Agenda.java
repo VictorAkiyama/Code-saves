@@ -2,17 +2,17 @@ package SistemaClinicaOdontologicaPackage;
 
 public class Agenda {
 
-	public boolean hora8 = false;
-	public boolean hora9 = false;
-	public boolean hora10 = false;
-	public boolean hora11 = false;
-	public boolean hora12 = false;
-	public boolean hora13 = false;
-	public boolean hora14 = false;
-	public boolean hora15 = false;
-	public boolean hora16 = false;
-	public boolean hora17 = false;
-	public boolean hora18 = false;
+	private boolean hora8 = false;
+	private boolean hora9 = false;
+	private boolean hora10 = false;
+	private boolean hora11 = false;
+	private boolean hora12 = false;
+	private boolean hora13 = false;
+	private boolean hora14 = false;
+	private boolean hora15 = false;
+	private boolean hora16 = false;
+	private boolean hora17 = false;
+	private boolean hora18 = false;
 	
 	//construtor
 	public Agenda() {}
@@ -33,7 +33,7 @@ public class Agenda {
 	
 	//métodos
 	public void colocaHorarioConsultaAgenda(Consulta consultaInteracao) {
-		switch(consultaInteracao.horario) {
+		switch(consultaInteracao.gethorario()) {
 			case 8:
 				this.hora8 = true;
 				break;
@@ -73,7 +73,7 @@ public class Agenda {
 	}
 	
 	public void removerHorarioConsultaAgenda(Consulta consultaInteracao) {
-		switch(consultaInteracao.horario) {
+		switch(consultaInteracao.gethorario()) {
 			case 8:
 				this.hora8 = false;
 				break;
@@ -113,7 +113,7 @@ public class Agenda {
 	}
 	
 	public void colocaHorarioAcompanhamentoAgenda(Consulta consultaInteracao) {
-		switch(consultaInteracao.acompanhamento.horario) {
+		switch(consultaInteracao.getacompanhamento().gethorario()) {
 			case 8:
 				this.hora8 = true;
 				break;
@@ -153,7 +153,7 @@ public class Agenda {
 	}
 	
 	public void removerHorarioAcompanhamentoAgenda(Consulta consultaInteracaoAnterior) {
-		switch(consultaInteracaoAnterior.acompanhamento.horario) {
+		switch(consultaInteracaoAnterior.getacompanhamento().gethorario()) {
 			case 8:
 				this.hora8 = false;
 				break;
