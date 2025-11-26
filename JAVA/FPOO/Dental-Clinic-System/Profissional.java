@@ -2,9 +2,9 @@ package SistemaClinicaOdontologicaPackage;
 
 public abstract class Profissional {
 
-	public String nome;
-	public String genero;
-	public String certificacoes;
+	private String nome;
+	private String genero;
+	private String certificacoes;
 	private double salario;
 	private double cpf;
 	
@@ -18,6 +18,27 @@ public abstract class Profissional {
 	}
 	
 	//gets e sets
+	public String getnome() {
+		return nome;
+	}
+	public void setnome(String nome) {
+		this.nome = nome;
+	}
+	
+	public String getgenero() {
+		return genero;
+	}
+	public void setgenero(String genero) {
+		this.genero = genero;
+	}
+	
+	public String getcertificacoes() {
+		return certificacoes;
+	}
+	public void setcertificacoes(String certificacoes) {
+		this.certificacoes = certificacoes;
+	}
+	
 	public double getcpf() {
 		return cpf;
 	}
