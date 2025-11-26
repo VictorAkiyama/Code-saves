@@ -80,7 +80,7 @@ public class Sistema {
 	public Consulta colocarConsultaRemarcadaEmLista(Consulta consultaInteracao, Consulta consultaLista[]) {
 		int i;
 		for (i = 0; i < 10; i++) {
-			if (consultaInteracao.id_consulta == consultaLista[i].id_consulta) {
+			if (consultaInteracao.getid_consulta() == consultaLista[i].getid_consulta()) {
 				consultaLista[i] = consultaInteracao;
 				//sai do loop
 				return consultaLista[i];
@@ -98,7 +98,7 @@ public class Sistema {
 				System.out.println(i + " Nenhuma consulta marcada aqui.");
 			}
 			else {
-				System.out.println(i + " " + consultaLista[i].id_consulta + ", " + consultaLista[i].dentista.nome + ", " + consultaLista[i].paciente.nome + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes + ", " + consultaLista[i].acompanhamento + ", " + consultaLista[i].getpagamento() + ";");
+				System.out.println(i + " " + consultaLista[i].getid_consulta() + ", " + consultaLista[i].getdentista().getnome() + ", " + consultaLista[i].getpaciente().getnome() + ", " + consultaLista[i].gethorario() + ":00, " + consultaLista[i].getdetalhes() + ", " + consultaLista[i].getacompanhamento() + ", " + consultaLista[i].getpagamento() + ";");
 			}
 		}
 	}
