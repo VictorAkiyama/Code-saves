@@ -25,20 +25,47 @@ struct Item* criarItem(char *texto, int posicao) {
     return novo;
 }
 
-
 // Imprime a lista inteira
 void imprimirLista(struct Item *lista) {
     struct Item *atual = lista;
     
-    printf("**************Lista de tarefas**************\n\n");
+    printf("\n**************Lista de tarefas**************\n\n");
 
     while (atual != NULL) {
         printf("- Tarefa %d: %s\n", atual->posicao, atual->tarefa); // do endereco de atual pega a tarefa
         atual = atual->prox;   // vai para o próximo nodo
     }
+}
+
+void alterar(struct Item *lista) {
+    struct Item *atual = lista;
+    imprimirLista(atual);
+    printf("\ndigite o numero da tarefa na lista que deseja alterar: ");
     
-    printf("Pressione qualquer tecla para continuar...\n");
-    getchar();
+    int posicaoSelecionada;
+    scanf("%d", &posicaoSelecionada);
+    getchar(); //pega o espaço que conclui o scanf acima, para que o fgets abaixo nao detecte o espaço e passe direto
+
+    while (atual != NULL) {
+        if (atual->posicao == posicaoSelecionada) {
+            //mostra a tarefa selecionada
+            printf("Tarefa '%s' de posicao %d selecionada\n", atual->tarefa, atual->posicao);
+            //obtém a nova tarefa para a posição
+            printf("Digite a nova tarefa: ");
+            char novaTarefa[50];
+            fgets(novaTarefa, 50, stdin);
+            //remove o enter \n e o troca por \0
+            novaTarefa[strcspn(novaTarefa, "\n")] = '\0';
+            //coloca nova tarefa na posicao
+            strcpy(atual->tarefa, novaTarefa);
+            printf("\nTarefa alterada com sucesso\n");
+            //sai do loop
+            return;
+        }
+        else {
+            atual = atual->prox;
+        }
+    }
 }
 
 // adiciona a tarefa
@@ -46,7 +73,7 @@ void adicionar(struct Item **lista, int posicao){ //**lista: pega o ponteiro do 
         char tarefa[50];
         
         printf("**************Adicionar tarefas**************\n");
-        printf("Escreva a tarefa:\n");
+        printf("Escreva a tarefa: ");
         
         //fgets(variavel, tamanho, stdin)
         //igual o scanf mas para strings completas com espaços
@@ -72,28 +99,31 @@ void adicionar(struct Item **lista, int posicao){ //**lista: pega o ponteiro do 
 int main(){
     struct Item *lista = NULL; //o primeiro ponteiro (cabeça) que aponta para NULL, criando a lista como NULL
     
-    int posicao = 1; // essencial para que o valor "posição" dos nodos sejam incrementais
+    int posicao = 1; // essencial para que o valor "posição" das listas sejam incrementais
     int loop = 1;
-    while (loop = 1) {
+    while (loop == 1) {
         printf("****************************************************** \n \n" );
         printf("Digite a letra [a] se quiser alterar uma tarefa \n");
         printf("Digite a letra [e] se quiser excluir uma tarefa \n" );
         printf("Digite a letra [l] se quiser ler as tarefas \n" );
-        printf("Digite a letra [d] se quiser adicionar uma tarefa \n \n" );  
+        printf("Digite a letra [d] se quiser adicionar uma tarefa \n \n" );
 
 
         char opcao;
-        printf("Digite uma opção: ");
+        printf("Digite uma opcao: ");
         scanf(" %c", &opcao);
         getchar();
         
         if(opcao == 'a'){
-            //
+            system("cls");
+            alterar(lista);
         } else if (opcao == 'e'){
-            //
+            //FAZER
         } else if (opcao == 'l'){
-            printf("ele");
+            system("cls");
             imprimirLista(lista);
+            printf("\nPressione qualquer tecla para continuar...\n");
+            getchar();
         } else if(opcao == 'd'){
             adicionar(&lista, posicao);
             posicao += 1;
