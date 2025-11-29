@@ -73,6 +73,39 @@ void alterar(struct Item *lista) {
     }
 }
 
+void excluir(struct Item *lista) {
+    struct Item *atual = lista;
+    imprimirLista(atual);
+
+    char buffer[10];
+    int posicaoSelecionada;
+    printf("\ndigite o numero da tarefa na lista que deseja excluir: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';
+    posicaoSelecionada = atoi(buffer);
+
+    while (atual != NULL) {
+        if (atual->posicao == posicaoSelecionada) {
+            //mostra a tarefa selecionada
+            printf("Tarefa '%s' de posicao %d selecionada\n", atual->tarefa, atual->posicao);
+            
+            //limpa a tarefa
+            char tarefaLimpa[50] = "";
+            strcpy(atual->tarefa, tarefaLimpa);
+
+            printf("\nTarefa excluída com sucesso\n");
+            printf("\nPressione qualquer tecla para continuar...\n");
+            getchar();
+            printf("\033[2J\033[H");
+            //sai do loop
+            return;
+        }
+        else {
+            atual = atual->prox;
+        }
+    }
+}
+
 void lerLista(struct Item *lista) {
     struct Item *atual = lista;
     imprimirLista(atual);
@@ -133,7 +166,8 @@ int main(){
             printf("\033[2J\033[H");
             alterar(lista);
         } else if (opcao == 'e'){
-            //FAZER
+            printf("\033[2J\033[H");
+            excluir(lista);
         } else if (opcao == 'l'){
             printf("\033[2J\033[H");
             lerLista(lista);
