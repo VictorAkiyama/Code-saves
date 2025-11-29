@@ -73,6 +73,14 @@ void alterar(struct Item *lista) {
     }
 }
 
+void lerLista(struct Item *lista) {
+    struct Item *atual = lista;
+    imprimirLista(atual);
+    printf("\nPressione qualquer tecla para continuar...\n");
+    getchar();
+    printf("\033[2J\033[H");
+}
+
 // adiciona a tarefa
 void adicionar(struct Item **lista, int posicao){ //**lista: pega o ponteiro do ponteiro da lista
         char tarefa[50];
@@ -128,10 +136,7 @@ int main(){
             //FAZER
         } else if (opcao == 'l'){
             printf("\033[2J\033[H");
-            imprimirLista(lista);
-            printf("\nPressione qualquer tecla para continuar...\n");
-            getchar();
-            printf("\033[2J\033[H");
+            lerLista(lista);
         } else if(opcao == 'd'){
             adicionar(&lista, posicao);
             posicao += 1;
