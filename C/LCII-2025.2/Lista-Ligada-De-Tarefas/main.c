@@ -2,7 +2,7 @@
 
 #include <stdio.h> // scanf e printf (entrada e saida)
 #include <string.h> // strcpy e strcspn
-#include <stdlib.h> // malloc e free (manipulacao de memoria)
+#include <stdlib.h> // malloc e free (manipulacao de memoria) - atoi (converte numero em string para int)
 
 //cria um struct com a tarefa e um ponteiro para o proximo item
 struct Item {
@@ -40,11 +40,13 @@ void imprimirLista(struct Item *lista) {
 void alterar(struct Item *lista) {
     struct Item *atual = lista;
     imprimirLista(atual);
-    printf("\ndigite o numero da tarefa na lista que deseja alterar: ");
-    
+
+    char buffer[10]; // define o tamanho máximo da entrada
     int posicaoSelecionada;
-    scanf("%d", &posicaoSelecionada);
-    getchar(); //pega o espaço que conclui o scanf acima, para que o fgets abaixo nao detecte o espaço e passe direto
+    printf("\ndigite o numero da tarefa na lista que deseja alterar: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';  // remove quebra linha
+    posicaoSelecionada = atoi(buffer); //atoi() pega o número representado em string e devolva um número inteiro correspondente
 
     while (atual != NULL) {
         if (atual->posicao == posicaoSelecionada) {
@@ -59,6 +61,9 @@ void alterar(struct Item *lista) {
             //coloca nova tarefa na posicao
             strcpy(atual->tarefa, novaTarefa);
             printf("\nTarefa alterada com sucesso\n");
+            printf("\nPressione qualquer tecla para continuar...\n");
+            getchar();
+            printf("\033[2J\033[H");
             //sai do loop
             return;
         }
@@ -79,7 +84,7 @@ void adicionar(struct Item **lista, int posicao){ //**lista: pega o ponteiro do 
         //igual o scanf mas para strings completas com espaços
         fgets(tarefa, 50, stdin);
         
-        system("cls"); // limpa o terminal
+        printf("\033[2J\033[H"); // limpa o terminal
         
         //troca o \n pelo \0 para não printar o enter
         //strcspn(variavel, char) -> retorna a posicao do char na string
@@ -89,10 +94,10 @@ void adicionar(struct Item **lista, int posicao){ //**lista: pega o ponteiro do 
         novo->prox = *lista;   // o ponteiro de nodo "novo" agora aponta para NULL
         *lista = novo;  // o valor e ponteiro do nodo inicial (cabeça) muda para o novo nodo
         
-        printf("Adicionada a tarefa:\n\n  %s\n\n",tarefa);
+        printf("Adicionada a tarefa:\n\n  %s\n\n", tarefa);
         printf("Pressione qualquer tecla para continuar...\n");
         getchar(); // igual input()
-        system("cls");
+        printf("\033[2J\033[H");
 
     }
     
@@ -101,6 +106,7 @@ int main(){
     
     int posicao = 1; // essencial para que o valor "posição" das listas sejam incrementais
     int loop = 1;
+    char buffer[10]; // essencial para o fgets() que pega a opção
     while (loop == 1) {
         printf("****************************************************** \n \n" );
         printf("Digite a letra [a] se quiser alterar uma tarefa \n");
@@ -111,19 +117,21 @@ int main(){
 
         char opcao;
         printf("Digite uma opcao: ");
-        scanf(" %c", &opcao);
-        getchar();
+        fgets(buffer, 10, stdin);
+        buffer[strcspn(buffer, "\n")] = '\0';
+        opcao = buffer[0];
         
         if(opcao == 'a'){
-            system("cls");
+            printf("\033[2J\033[H");
             alterar(lista);
         } else if (opcao == 'e'){
             //FAZER
         } else if (opcao == 'l'){
-            system("cls");
+            printf("\033[2J\033[H");
             imprimirLista(lista);
             printf("\nPressione qualquer tecla para continuar...\n");
             getchar();
+            printf("\033[2J\033[H");
         } else if(opcao == 'd'){
             adicionar(&lista, posicao);
             posicao += 1;
