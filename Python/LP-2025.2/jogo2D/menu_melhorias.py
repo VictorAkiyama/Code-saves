@@ -182,7 +182,7 @@ def menu_melhorias():
     dano = status.dano
     vel_tiro = status.lerdeza_tiro
     vel_tiro_lvl = [0, vel_tiro, 7, 1] #Vel_tiro_lvl[1] indice é o lvl
-    dano_lvl = [0, dano, 2, 3]
+    dano_lvl = [0, dano, 4, 6]
     vida_lvl = [0, vida, 4, 5]
     
 

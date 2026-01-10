@@ -1,5 +1,5 @@
 vida = 3
-dano = 1
+dano = 3
 moedas = 0
 lerdeza_tiro = 13
 fase = 1

@@ -239,7 +239,7 @@ def jogo():
         return tiro_y     
     #move os inimigos para baixo
     def mover_inimigos(cont, inimigos):
-        if cont % 80 == 0:
+        if cont % 500 == 0:
             return [(x, y + 1) for (x, y) in inimigos if y + 1 < altura]
         return inimigos
 
@@ -268,7 +268,7 @@ def jogo():
     # Mover tiros dos inimigos para baixo
     def mover_tiros_inimigos():
         nonlocal tiros_inimigos
-        VELOCIDADE_TIRO_INIMIGO = 10  # Quanto maior, mais lento
+        VELOCIDADE_TIRO_INIMIGO = 20  # Quanto maior, mais lento
 
         if cont % VELOCIDADE_TIRO_INIMIGO != 0:
             return  # só move os tiros de vez em quando
