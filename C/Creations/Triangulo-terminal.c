@@ -1,5 +1,5 @@
 /*Desenhar um triângulo no terminal*/
-'''
+/*
 Desenhar um triângulo no terminal:
 10) Faça um programa que leia um valor N representando uma altura de um
 triângulo, e em seguida, o programa deve desenhar um triângulo conforme o
@@ -11,7 +11,7 @@ __*****__
 _*******_
 *********
 
-'''
+*/
 
 #include <stdio.h>
 
@@ -50,3 +50,4 @@ int main()
         }
     }
 }
+
