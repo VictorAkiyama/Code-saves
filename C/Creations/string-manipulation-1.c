@@ -1,20 +1,35 @@
 #include <stdio.h>
+#include <string.h>
 
 void inverter(char array[], char array_invertido[]) {
     
     int i;
-    int j = 8;
+    int len = strlen(array);
+    int j = len - 1;
 
     // faz loop no "array" do começo ao fim, e faz loop no "array_invertido" do fim até o começo
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i < len; i++) {
         array_invertido[j] = array[i];
         j--;
     }
 
-    array_invertido[9] = '\0';
+    array_invertido[len] = '\0';
 }
 
-void baguncar(char array[], char array_baguncado[]) {}
+void baguncar(char array[], char array_baguncado[]) {
+
+    int i;
+    int len = strlen(array);
+    char caractere_array_ASCII;
+
+    for (i = 0; i < len; i++) {
+        caractere_array_ASCII = (int)array[i];  // obtem o valor ASCII do caractere de array
+        caractere_array_ASCII ++;   // aumenta o valor ASCII por um
+        array_baguncado[i] = (char)caractere_array_ASCII;   // atribui o valor ASCII convertido em caractere no array_baguncado
+    }
+
+    array_baguncado[len] = '\0';
+}
 
 int main() {
     
@@ -107,6 +122,109 @@ void inverter(char array[], char array_invertido[]) {
 }
 
 void baguncar(char array[], char array_baguncado[]) {}
+
+int main() {
+    
+    char array[10];
+    char array_invertido[10];
+    char array_baguncado[10];
+
+    printf("Digite o conteúdo do array: ");
+    scanf("%9s", array);
+
+    inverter(array, array_invertido);
+    printf("\nArray invertido: %s", array_invertido);
+
+    baguncar(array, array_baguncado);
+    printf("\nArray bagunçado: %s", array_baguncado);
+}
+
+*/
+
+
+// VERSÃO 1.2
+// ERROS RESOLVIDOS:
+// 1. O "array" com menos de 9 caracteres não funciona ao ser invertido
+//      Solução: utilizar a função "strlen()" para pegar a largura do array, independente de sua largura, agora o array invertido fica certo
+/*
+
+#include <stdio.h>
+#include <string.h>
+
+void inverter(char array[], char array_invertido[]) {
+    
+    int i;
+    int len = strlen(array);
+    int j = len - 1;
+
+    // faz loop no "array" do começo ao fim, e faz loop no "array_invertido" do fim até o começo
+    for (i = 0; i < len; i++) {
+        array_invertido[j] = array[i];
+        j--;
+    }
+
+    array_invertido[len] = '\0';
+}
+
+void baguncar(char array[], char array_baguncado[]) {}
+
+int main() {
+    
+    char array[10];
+    char array_invertido[10];
+    char array_baguncado[10];
+
+    printf("Digite o conteúdo do array: ");
+    scanf("%9s", array);
+
+    inverter(array, array_invertido);
+    printf("\nArray invertido: %s", array_invertido);
+
+    baguncar(array, array_baguncado);
+    printf("\nArray bagunçado: %s", array_baguncado);
+}
+
+*/
+
+
+// VERSÃO 1.3 - FINAL
+// ADIÇÕES:
+// 1. A função "bagunçar";
+//      Pega cada caractere do array, transforma em ASCII, aumento o valor ASCII em um, transforma o ASCII em caractere e atribui a array_baguncado
+/*
+
+#include <stdio.h>
+#include <string.h>
+
+void inverter(char array[], char array_invertido[]) {
+    
+    int i;
+    int len = strlen(array);
+    int j = len - 1;
+
+    // faz loop no "array" do começo ao fim, e faz loop no "array_invertido" do fim até o começo
+    for (i = 0; i < len; i++) {
+        array_invertido[j] = array[i];
+        j--;
+    }
+
+    array_invertido[len] = '\0';
+}
+
+void baguncar(char array[], char array_baguncado[]) {
+
+    int i;
+    int len = strlen(array);
+    char caractere_array_ASCII;
+
+    for (i = 0; i < len; i++) {
+        caractere_array_ASCII = (int)array[i];  // obtem o valor ASCII do caractere de array
+        caractere_array_ASCII ++;   // aumenta o valor ASCII por um
+        array_baguncado[i] = (char)caractere_array_ASCII;   // atribui o valor ASCII convertido em caractere no array_baguncado
+    }
+
+    array_baguncado[len] = '\0';
+}
 
 int main() {
     
