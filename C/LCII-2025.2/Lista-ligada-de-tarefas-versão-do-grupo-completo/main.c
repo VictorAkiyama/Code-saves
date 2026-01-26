@@ -69,10 +69,62 @@ void lerLista(struct Item*lista) {
 }
 
 // adiciona a tarefa
-void adicionar(Item **lista, int posicao){ //**lista: pega o ponteiro do ponteiro da lista
+void adicionar(Item **lista, int *posicao_atual, int posicoes_ocupadas[], int *total_posicoes_ocupadas){ //**lista: pega o ponteiro do ponteiro da lista
         char tarefa[50]; // variável que recebe o texto digitado
 
         printf("**************Adicionar tarefa**************\n");
+        printf("Quer colocar a nova tarefa em uma posicao especifica?\n\n");
+        printf("1. Digite a letra [s] se sim. \n" );
+        printf("2. Digite qualquer outra letra se nao. \n\n");
+        
+        char opcao2 = 'x';
+        printf("Digite uma opcao: ");
+        scanf(" %c", &opcao2);
+        getchar();// tira o ENTER que sobra
+        
+        int posicaoSelecionada;
+        int posicao;
+        int len = *total_posicoes_ocupadas;
+        int verificador = 0;
+        if (opcao2 == 's') {
+            printf("\n\nDigite a posicao da nova tarefa: " );
+            scanf("%d", &posicaoSelecionada);
+            getchar();
+            
+            int i; // verifica se a posicao esta ocupada para ser usada
+            for (i = 0; i < len; i++) {
+                if (posicaoSelecionada == posicoes_ocupadas[i]) {
+                    verificador = 1;
+                    break;
+                }
+            }
+            
+            //mostra se a posicao foi encontrada na lista posições_ocupadas[]
+            if (verificador == 1) {
+                printf("\n\nPosicao esta ocupada.\n");
+                printf("Pressione ENTER para continuar...\n");
+                getchar();
+                return;
+            }
+            //mostra se a posicao não foi encontrada na lista posições_ocupadas[]
+            else if (verificador == 0) {
+                posicao = posicaoSelecionada; //atribui a posição selecionada para a posição, que vai ser usada ao criar a tarefa no criarItem(tarefa, posicao)
+                printf("\n\nPosicao esta livre.\n");
+            }
+        } else {
+            printf("\n\nA tarefa vai possuir a posicao mais recente.\n\n");
+            //atribui a posição_atual para a posição
+            posicao = *posicao_atual;
+            //aumenta posição_atual, usado para quando o usuario opta por nao escolher uma posição para a tarefa
+            (*posicao_atual)++;
+        }
+
+        //atribui a posição da tarefa na lista de posições_ocupadas[]
+        posicoes_ocupadas[*total_posicoes_ocupadas] = posicao;
+        //aumenta o total
+        (*total_posicoes_ocupadas)++;
+
+
         printf("Escreva a tarefa:\n");
 
         // fgets(variavel, tamanho, stdin):
@@ -147,7 +199,7 @@ void alterar(Item *lista) {
 
 
 // exclui o Item da lista
-void excluir(Item **lista) {
+void excluir(Item **lista, int posicoes_ocupadas[], int *total_posicoes_ocupadas) {
 
     char buffer[10]; // limite para entrada do usuario para posicaoSelecionada
     int posicaoSelecionada; // guarda a posicao da tarefa a excluir
@@ -182,6 +234,22 @@ void excluir(Item **lista) {
             }
 
             free(atual); // libera memória
+
+            int i, j;
+            int len = *total_posicoes_ocupadas;
+            // deleta a posicao selecionada da lista de posicoes ocupadas
+            for (i = 0; i < len; i++) {
+                if (posicaoSelecionada == posicoes_ocupadas[i]) {
+                    // a partir da posição selecionada, ocorre o abaixo, deletando o índice aonde a posição selecionada estava
+                    // leva os elementos uma casa para a esquerda na lista posicoes_ocupadas[]
+                    for (j = i; j < len - 1; j++) {     // (j < len - 1) essa expressão é para evitar que dê erro de índice fora de alcance
+                        posicoes_ocupadas[j] = posicoes_ocupadas[j + 1];
+                    }
+                    (*total_posicoes_ocupadas)--; //diminui o total de posições ocupadas
+                    break;
+                }
+            }
+
             printf("Tarefa excluida!\n");
             printf("Pressione ENTER para continuar...\n");
             getchar();
@@ -206,7 +274,9 @@ int main(){
     struct Item *lista = NULL; //o primeiro ponteiro (cabeça) que aponta para NULL, criando a lista como NULL
     char opcao = 'x'; // variável que guarda a opção do usuário
     
-    int posicao = 1; // essencial para que o valor "posição" das listas sejam incrementais
+    int posicoes_ocupadas[100]; // total de 100 posições para 100 tarefas
+    int total_posicoes_ocupadas = 0; // quantidade de posições ocupadas, usado no adicionar
+    int posicao_atual = 1; // essencial para que o valor "posição" das listas sejam incrementais
     while (opcao != 's'){
 
         limpar();
@@ -231,7 +301,7 @@ int main(){
             
         } else if (opcao == 'e'){
             limpar();
-            excluir(&lista); 
+            excluir(&lista, posicoes_ocupadas, &total_posicoes_ocupadas); 
 
         } else if (opcao == 'l'){
             limpar();
@@ -239,8 +309,7 @@ int main(){
     
         } else if(opcao == 'a'){
             limpar();
-            adicionar(&lista, posicao);
-            posicao += 1;
+            adicionar(&lista, &posicao_atual, posicoes_ocupadas, &total_posicoes_ocupadas);
 
         } else if(opcao != 's'){
             printf("opcao invalida, pressione ENTER para continuar...");
