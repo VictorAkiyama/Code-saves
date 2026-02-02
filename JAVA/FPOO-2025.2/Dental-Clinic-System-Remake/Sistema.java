@@ -1,5 +1,7 @@
 package SistemaClinicaOdontologicaPackage;
 
+import java.util.Scanner; //biblioteca input
+
 public class Sistema {
 	
 	//construtor
@@ -18,6 +20,9 @@ public class Sistema {
 	//numero criado para servir como id para as consultas, incrementa quando se marca uma consulta
 	int numero_id = 1000;
 	
+	//numero de ID da consulta selecionada, das opções remarcar e cancelar consulta
+	int id_consulta_selecionada = 0;
+	
 	public void interacao(int opcao, Consulta consulta, Sistema sistema, Consulta consultaLista[], Agenda agenda) {
 		//lista de opções
 		if (opcao == 1) {
@@ -31,7 +36,17 @@ public class Sistema {
 		}
 		else if (opcao == 2) {
 			System.out.println("Opção para remarcar consulta selecionada");
-			consulta = consulta.remarcar(consulta, sistema, agenda);
+			id_consulta_selecionada = selecionarConsultaNaListadeConsultas(consultaLista);
+			// se a consulta foi encontrada, continua
+			if (id_consulta_selecionada >= 0) {
+				//TODO: sistema de remover o horario da consulta selecionada na agenda e colocar denovo a mesma consulta com horário diferente na agenda
+				consulta = consulta.remarcar(consulta, sistema, agenda);
+				chamaColocaHorarioConsultaAgenda(consulta, agenda);
+			}
+			// se não foi encontrada, volta para o menu principal
+			else {
+				return;
+			}
 		}
 		else if (opcao == 3) {
 			System.out.println("Opção para cancelar consulta selecionada");
@@ -103,6 +118,44 @@ public class Sistema {
 				System.out.println(i + " " + consultaLista[i].getid_consulta() + ", " + consultaLista[i].getdentista().getnome() + ", " + consultaLista[i].getpaciente().getnome() + ", " + consultaLista[i].gethorario() + ":00, " + consultaLista[i].getdetalhes() + ", " + consultaLista[i].getacompanhamento() + ", " + consultaLista[i].getpagamento() + ";");
 			}
 		}
+	}
+	
+	Scanner input = new Scanner(System.in); //objeto input
+	
+	public int selecionarConsultaNaListadeConsultas(Consulta consultaLista[]) {
+		int i;
+		int indiceDaConsultaNaLista = 0;
+		int verificador = 0;
+		int valor_a_retornar = 0; // usado para retornar da função
+		
+		mostrarListadeConsultas(consultaLista); // mostra lista para o usuário ter uma referência
+		System.out.println("\nSelecione uma consulta da lista pelo ID: ");
+		int IDconsultaSelecionada = input.nextInt(); // pega o id digitado
+		input.nextLine(); // limpa o enter do input anterior
+		
+		for (i = 0; i < 10; i++) {
+			// procura pela consulta com o ID selecionado
+			if (consultaLista[i].getid_consulta() == IDconsultaSelecionada) {
+				// pega o indice da consulta procurada na lista
+				indiceDaConsultaNaLista = i;
+				// altera o valor do verificador 
+				verificador = 1;
+				break;
+			}
+		}
+		
+		// se a consulta com o ID foi encontrado
+		if (verificador == 1) {
+			System.out.println("\n\nConsulta com o ID foi encontrado.\n\n");
+			valor_a_retornar = indiceDaConsultaNaLista;
+		}
+		else if (verificador == 0) {
+			System.out.println("\n\nConsulta com o ID não foi encontrado.\n\n");
+			valor_a_retornar = -1;
+		}
+		
+		// sim, é estranho. Mas foi a única forma já que a função não aceita se eu retornar dentro do if else :)
+		return valor_a_retornar;
 	}
 	
 	public void chamaColocaHorarioConsultaAgenda(Consulta consulta, Agenda agenda) {
