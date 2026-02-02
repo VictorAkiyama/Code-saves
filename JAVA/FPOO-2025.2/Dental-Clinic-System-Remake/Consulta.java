@@ -65,7 +65,7 @@ public class Consulta implements Atendimento {
 		// -- dado horario --
 		System.out.println("Digite o horário da consulta: ");
 		int horario = input.nextInt();
-		input.nextLine();
+		input.nextLine(); // limpa o enter do input anterior
 		
 		// -- dado detalhes --
 		System.out.println("Digite os detalhes do procedimento da consulta: ");
@@ -98,11 +98,13 @@ public class Consulta implements Atendimento {
 	}
 
 	public Consulta remarcar(Consulta consulta, Sistema sistema, Agenda agenda) {
-		// remove da agenda o horario da consulta antiga
-		sistema.chamaRemoverHorarioConsultaAgenda(consulta, agenda);
+		
+		//TODO: fazer o mesmo sistema de input do marcar() e fazer o remarcar manter o ID da consulta o mesmo, o resto pode ser mudado por input
+		
+		/* remove da agenda o horario da consulta antiga
+		sistema.chamaRemoverHorarioConsultaAgenda(consulta, agenda);*/
 
-		System.out
-				.println("\nDigite o nome do Doutor, paciente, horário, detalhes e forma de pagamento da consulta:  ");
+		System.out.println("\nDigite o nome do Doutor, paciente, horário, detalhes e forma de pagamento da consulta:  ");
 		// simulação do usuário digitando os dados
 		Dentista dentista = new Dentista("Luis", "M", "Mestrado", "Odontopediatria");
 		Paciente paciente = new Paciente("Ricardo", "M");
