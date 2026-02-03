@@ -42,7 +42,6 @@ public class Sistema {
 			id_consulta_selecionada = selecionarIDconsultaNaListadeConsultas(consultaLista);
 			// se a consulta foi encontrada, continua
 			if (id_consulta_selecionada >= 0) {
-				//TODO: sistema de remover o horario da consulta selecionada na agenda e colocar denovo a mesma consulta com horário diferente na agenda
 				horario_consulta_selecionada = pegarHorarioConsultaSelecionada(consultaLista, id_consulta_selecionada); // pega horario da consulta selecionada
 				chamaRemoverHorarioConsultaAgenda(agenda, horario_consulta_selecionada);
 				consulta = consulta.remarcar(consulta, sistema, agenda, id_consulta_selecionada);
@@ -61,7 +60,6 @@ public class Sistema {
 			id_consulta_selecionada = selecionarIDconsultaNaListadeConsultas(consultaLista);
 			// se a consulta foi encontrada, continua
 			if (id_consulta_selecionada >= 0) {
-				//TODO: sistema de remover o horario da consulta selecionada na agenda e colocar denovo a mesma consulta com horário diferente na agenda
 				horario_consulta_selecionada = pegarHorarioConsultaSelecionada(consultaLista, id_consulta_selecionada); // pega horario da consulta selecionada
 				chamaRemoverHorarioConsultaAgenda(agenda, horario_consulta_selecionada);
 				consulta.cancelar(consulta, sistema, consultaLista, id_consulta_selecionada);
