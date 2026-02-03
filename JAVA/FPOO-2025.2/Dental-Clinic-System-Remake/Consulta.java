@@ -169,7 +169,8 @@ public class Consulta implements Atendimento {
 
 	public void cancelar(Consulta consulta, Sistema sistema, Consulta consultaLista[], int id_consulta_selecionada) {
 		int i;
-		
+
+		// torna a consulta selecionada em null na lista
 		for (i = 0; i < consultaLista.length; i++) {
 			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
 				consultaLista[i] = null;
