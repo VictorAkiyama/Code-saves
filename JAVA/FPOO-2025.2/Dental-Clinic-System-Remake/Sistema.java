@@ -23,6 +23,9 @@ public class Sistema {
 	//numero de ID da consulta selecionada, das opções remarcar e cancelar consulta
 	int id_consulta_selecionada = 0;
 	
+	//horario da consulta selecionada, das opções remarcar e cancelar consulta
+	int horario_consulta_selecionada = 0;
+	
 	public void interacao(int opcao, Consulta consulta, Sistema sistema, Consulta consultaLista[], Agenda agenda) {
 		//lista de opções
 		if (opcao == 1) {
@@ -36,12 +39,17 @@ public class Sistema {
 		}
 		else if (opcao == 2) {
 			System.out.println("Opção para remarcar consulta selecionada");
-			id_consulta_selecionada = selecionarConsultaNaListadeConsultas(consultaLista);
+			id_consulta_selecionada = selecionarIDconsultaNaListadeConsultas(consultaLista);
 			// se a consulta foi encontrada, continua
 			if (id_consulta_selecionada >= 0) {
 				//TODO: sistema de remover o horario da consulta selecionada na agenda e colocar denovo a mesma consulta com horário diferente na agenda
-				consulta = consulta.remarcar(consulta, sistema, agenda);
+				horario_consulta_selecionada = pegarHorarioConsultaSelecionada(consultaLista, id_consulta_selecionada); // pega horario da consulta selecionada
+				chamaRemoverHorarioConsultaAgenda(agenda, horario_consulta_selecionada);
+				consulta = consulta.remarcar(consulta, sistema, agenda, id_consulta_selecionada);
 				chamaColocaHorarioConsultaAgenda(consulta, agenda);
+				colocarConsultaRemarcadaEmLista(consulta, consultaLista);
+				mostrarListadeConsultas(consultaLista);
+				chamaMostrarAgenda(agenda);
 			}
 			// se não foi encontrada, volta para o menu principal
 			else {
@@ -50,7 +58,20 @@ public class Sistema {
 		}
 		else if (opcao == 3) {
 			System.out.println("Opção para cancelar consulta selecionada");
-			consulta = consulta.cancelar(consulta, sistema, consultaLista);
+			id_consulta_selecionada = selecionarIDconsultaNaListadeConsultas(consultaLista);
+			// se a consulta foi encontrada, continua
+			if (id_consulta_selecionada >= 0) {
+				//TODO: sistema de remover o horario da consulta selecionada na agenda e colocar denovo a mesma consulta com horário diferente na agenda
+				horario_consulta_selecionada = pegarHorarioConsultaSelecionada(consultaLista, id_consulta_selecionada); // pega horario da consulta selecionada
+				chamaRemoverHorarioConsultaAgenda(agenda, horario_consulta_selecionada);
+				consulta.cancelar(consulta, sistema, consultaLista, id_consulta_selecionada);
+				mostrarListadeConsultas(consultaLista);
+				chamaMostrarAgenda(agenda);
+			}
+			// se não foi encontrada, volta para o menu principal
+			else {
+				return;
+			}
 		}
 		else if (opcao == 4) {
 			System.out.println("Opção para marcar acompanhamento selecionada\nQual das consultas deseja marcar um acompanhamento:");
@@ -83,7 +104,7 @@ public class Sistema {
 	
 	public Consulta colocarNovaConsultaEmLista(Consulta consulta, Consulta consultaLista[]) {
 		int i;
-		for (i = 0; i < 10; i++) {
+		for (i = 0; i < consultaLista.length; i++) {
 			if (consultaLista[i] == null) {
 				consultaLista[i] = consulta;
 				//sai do loop
@@ -94,11 +115,11 @@ public class Sistema {
 		return consultaLista[i];
 	}
 	
-	public Consulta colocarConsultaRemarcadaEmLista(Consulta consultaInteracao, Consulta consultaLista[]) {
+	public Consulta colocarConsultaRemarcadaEmLista(Consulta consulta, Consulta consultaLista[]) {
 		int i;
-		for (i = 0; i < 10; i++) {
-			if (consultaInteracao.getid_consulta() == consultaLista[i].getid_consulta()) {
-				consultaLista[i] = consultaInteracao;
+		for (i = 0; i < consultaLista.length; i++) {
+			if (consulta.getid_consulta() == consultaLista[i].getid_consulta()) {
+				consultaLista[i] = consulta;
 				//sai do loop
 				return consultaLista[i];
 			}
@@ -109,36 +130,35 @@ public class Sistema {
 	
 	public void mostrarListadeConsultas(Consulta consultaLista[]) {
 		int i;
+		int j = 1; // usado para número posição
 		System.out.println("\nLista de consultas:");
-		for (i = 0; i < 10; i++) {
+		for (i = 0; i < consultaLista.length; i++) {
 			if (consultaLista[i] == null) {
-				System.out.println(i + " Nenhuma consulta marcada aqui.");
+				System.out.println(j + " Nenhuma consulta marcada aqui.");
 			}
 			else {
-				System.out.println(i + " " + consultaLista[i].getid_consulta() + ", " + consultaLista[i].getdentista().getnome() + ", " + consultaLista[i].getpaciente().getnome() + ", " + consultaLista[i].gethorario() + ":00, " + consultaLista[i].getdetalhes() + ", " + consultaLista[i].getacompanhamento() + ", " + consultaLista[i].getpagamento() + ";");
+				System.out.println(j + " ID: " + consultaLista[i].getid_consulta() + ", " + consultaLista[i].getdentista().getnome() + ", " + consultaLista[i].getpaciente().getnome() + ", " + consultaLista[i].gethorario() + ":00, " + consultaLista[i].getdetalhes() + ", " + consultaLista[i].getacompanhamento() + ", " + consultaLista[i].getpagamento() + ";");
 			}
+			j++; // aumenta o número posição
 		}
 	}
 	
 	Scanner input = new Scanner(System.in); //objeto input
 	
-	public int selecionarConsultaNaListadeConsultas(Consulta consultaLista[]) {
+	public int selecionarIDconsultaNaListadeConsultas(Consulta consultaLista[]) {
 		int i;
-		int indiceDaConsultaNaLista = 0;
 		int verificador = 0;
 		int valor_a_retornar = 0; // usado para retornar da função
 		
 		mostrarListadeConsultas(consultaLista); // mostra lista para o usuário ter uma referência
 		System.out.println("\nSelecione uma consulta da lista pelo ID: ");
 		int IDconsultaSelecionada = input.nextInt(); // pega o id digitado
-		input.nextLine(); // limpa o enter do input anterior
+		//input.nextLine(); // limpa o enter do input anterior
 		
-		for (i = 0; i < 10; i++) {
+		for (i = 0; i < consultaLista.length; i++) {
 			// procura pela consulta com o ID selecionado
-			if (consultaLista[i].getid_consulta() == IDconsultaSelecionada) {
-				// pega o indice da consulta procurada na lista
-				indiceDaConsultaNaLista = i;
-				// altera o valor do verificador 
+			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == IDconsultaSelecionada) {
+				// altera o valor do verificador
 				verificador = 1;
 				break;
 			}
@@ -147,7 +167,7 @@ public class Sistema {
 		// se a consulta com o ID foi encontrado
 		if (verificador == 1) {
 			System.out.println("\n\nConsulta com o ID foi encontrado.\n\n");
-			valor_a_retornar = indiceDaConsultaNaLista;
+			valor_a_retornar = IDconsultaSelecionada;
 		}
 		else if (verificador == 0) {
 			System.out.println("\n\nConsulta com o ID não foi encontrado.\n\n");
@@ -158,12 +178,28 @@ public class Sistema {
 		return valor_a_retornar;
 	}
 	
+	public int pegarHorarioConsultaSelecionada(Consulta consultaLista[], int id_consulta_selecionada) {
+		int i;
+		int horarioDaConsultaNaAgenda = 0;
+		
+		for (i = 0; i < consultaLista.length; i++) {
+			// procura pela consulta com o ID selecionado
+			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
+				// pega o HORARIO da consulta procurada na lista
+				horarioDaConsultaNaAgenda = consultaLista[i].gethorario();
+				break;
+			}
+		}
+		
+		return horarioDaConsultaNaAgenda;
+	}
+	
 	public void chamaColocaHorarioConsultaAgenda(Consulta consulta, Agenda agenda) {
 		agenda.colocaHorarioConsultaAgenda(consulta);
 	}
 	
-	public void chamaRemoverHorarioConsultaAgenda(Consulta consultaInteracao, Agenda agenda) {
-		agenda.removerHorarioConsultaAgenda(consultaInteracao);
+	public void chamaRemoverHorarioConsultaAgenda(Agenda agenda, int horario_consulta_selecionada) {
+		agenda.removerHorarioConsultaAgenda(horario_consulta_selecionada);
 	}
 	
 	public void chamaColocaHorarioAcompanhamentoAgenda(Consulta consultaInteracao, Agenda agenda) {
