@@ -75,11 +75,10 @@ public class Consulta implements Atendimento {
 		Acompanhamento acompanhamento = new Acompanhamento();
 		
 		// atribui numero_id para id, que vai ser atribuido para a nova consulta
-		System.out.println("\nteste numero_id: " + numero_id + "\n");
 		int id = numero_id;
 		
 		// -- cria consulta --
-		Consulta consultaSimulacao = sistema.CriarConsulta(id, dentista, paciente, horario, detalhes, acompanhamento, pagamento);
+		Consulta consultaMarcada = sistema.CriarConsulta(id, dentista, paciente, horario, detalhes, acompanhamento, pagamento);
 		
 		/*
 		Dentista dentista = new Dentista("Luis", "M", "Mestrado", "Odontopediatria");
@@ -89,20 +88,18 @@ public class Consulta implements Atendimento {
 		Consulta consultaSimulacao = sistema.CriarConsulta(2355, dentista, paciente, 15, "Implante dentário", acompanhamento, pagamento);
 		*/
 		// mostra de foi marcado com sucesso ou não
-		if (consultaSimulacao.paciente != null && consultaSimulacao.dentista != null) {
-			System.out.println("\nConsulta " + consultaSimulacao.id_consulta + ", marcada com Dr." + consultaSimulacao.dentista.getnome() + " para " + consultaSimulacao.paciente.getnome() + " para às " + consultaSimulacao.horario + ":00\nDetalhes: " + consultaSimulacao.detalhes + ", " + consultaSimulacao.pagamento + "\n");
+		if (consultaMarcada.paciente != null && consultaMarcada.dentista != null) {
+			System.out.println("\nConsulta " + consultaMarcada.id_consulta + ", marcada com Dr." + consultaMarcada.dentista.getnome() + " para " + consultaMarcada.paciente.getnome() + " para às " + consultaMarcada.horario + ":00\nDetalhes: " + consultaMarcada.detalhes + ", " + consultaMarcada.pagamento + "\n");
 		} else {
 			System.out.println("Erro de agendamento");
 		}
-		return consultaSimulacao;
+		return consultaMarcada;
 	}
 
-	public Consulta remarcar(Consulta consulta, Sistema sistema, Agenda agenda) {
-		
-		//TODO: fazer o mesmo sistema de input do marcar() e fazer o remarcar manter o ID da consulta o mesmo, o resto pode ser mudado por input
+	public Consulta remarcar(Consulta consulta, Sistema sistema, Agenda agenda, int id_consulta_selecionada) {
 		
 		/* remove da agenda o horario da consulta antiga
-		sistema.chamaRemoverHorarioConsultaAgenda(consulta, agenda);*/
+		sistema.chamaRemoverHorarioConsultaAgenda(consulta, agenda)
 
 		System.out.println("\nDigite o nome do Doutor, paciente, horário, detalhes e forma de pagamento da consulta:  ");
 		// simulação do usuário digitando os dados
@@ -111,48 +108,76 @@ public class Consulta implements Atendimento {
 		Pagamento pagamento = new Pagamento(150.00, consulta, "Pix");
 		Acompanhamento acompanhamento = new Acompanhamento();
 		// remarcado para as 18 horas
-		Consulta consultaSimulacao = sistema.CriarConsulta(2355, dentista, paciente, 18, "Implante dentário",
-				acompanhamento, pagamento);
+		Consulta consultaSimulacao = sistema.CriarConsulta(2355, dentista, paciente, 18, "Implante dentário", acompanhamento, pagamento); */
+		
+		// usuário digitando os dados
+		// -- dados dentista --
+		System.out.println("Digite o nome do Dentista: ");
+		String nomeDentista = input.nextLine();
+		System.out.println("Digite o gênero do Dentista: ");
+		String generoDentista = input.nextLine();
+		System.out.println("Digite o grau de certificação do Dentista: ");
+		String certificacaoDentista = input.nextLine();
+		System.out.println("Digite a especialização do Dentista: ");
+		String capacitacaoDentista = input.nextLine();
+		// colocando as informações digitadas para um objeto dentista
+		Dentista dentista = new Dentista(nomeDentista, generoDentista, certificacaoDentista, capacitacaoDentista);
+		
+		// -- dados paciente --
+		System.out.println("Digite o nome do Paciente: ");
+		String nomePaciente = input.nextLine();
+		System.out.println("Digite o gênero do Paciente: ");
+		String generoPaciente = input.nextLine();
+		// colocando as informações digitadas para um objeto paciente
+		Paciente paciente = new Paciente(nomePaciente, generoPaciente);
+		
+		// -- dados pagamento --
+		System.out.println("Digite o valor da consulta: ");
+		double valorConsulta = input.nextDouble();
+		input.nextLine(); // limpa o enter do input anterior
+		System.out.println("Digite a forma de pagamento: ");
+		String formaPagamento = input.nextLine();
+		// colocando as informações digitadas para um objeto pagamento
+		Pagamento pagamento = new Pagamento(valorConsulta, consulta, formaPagamento);
+		
+		// -- dado horario --
+		System.out.println("Digite o horário da consulta: ");
+		int horario = input.nextInt();
+		input.nextLine(); // limpa o enter do input anterior
+		
+		// -- dado detalhes --
+		System.out.println("Digite os detalhes do procedimento da consulta: ");
+		String detalhes = input.nextLine();
+		
+		// objeto acompanhamento vazio criado para criar consulta
+		Acompanhamento acompanhamento = new Acompanhamento();
+		
+		// atribui o ID da consulta selecionada anteriormente nessa variável para ser usado ao criar a consulta remarcada
+		int id = id_consulta_selecionada;
+		
+		// -- cria consulta --
+		Consulta consultaRemarcada = sistema.CriarConsulta(id, dentista, paciente, horario, detalhes, acompanhamento, pagamento);
+		
 		// mostra de foi marcado com sucesso ou não
-		if (consultaSimulacao.paciente != null && consultaSimulacao.dentista != null) {
-			System.out.println("\nConsulta " + consultaSimulacao.id_consulta + ", foi remarcada com Dr." + consultaSimulacao.dentista.getnome() + " para " + consultaSimulacao.paciente.getnome() + " para às " + consultaSimulacao.horario + ":00\nDetalhes: " + consultaSimulacao.detalhes + ", " + consultaSimulacao.pagamento + "\n");
+		if (consultaRemarcada.paciente != null && consultaRemarcada.dentista != null) {
+			System.out.println("\nConsulta " + consultaRemarcada.id_consulta + ", foi remarcada com Dr." + consultaRemarcada.dentista.getnome() + " para " + consultaRemarcada.paciente.getnome() + " para às " + consultaRemarcada.horario + ":00\nDetalhes: " + consultaRemarcada.detalhes + ", " + consultaRemarcada.pagamento + "\n");
 		} else {
 			System.out.println("Erro de agendamento");
 		}
-		return consultaSimulacao;
+		return consultaRemarcada;
 	}
 
-	public Consulta cancelar(Consulta consulta, Sistema sistema, Consulta consultaLista[]) {
-		// interagir com a lista e remover a selecionada por usuário
-		System.out.println("\nQual das consultas deseja cancelar: ");
-		int i, j;
-		for (i = 0, j = 1; i < 10; i++, j++) {
-			if (consultaLista[i] != null) {
-				System.out.println("Opção" + j + ": " + "Consulta " + i + " - " + consultaLista[i].id_consulta + ", " + consultaLista[i].dentista.getnome() + ", " + consultaLista[i].paciente.getnome() + ", " + consultaLista[i].horario + ":00, " + consultaLista[i].detalhes + ", " + consultaLista[i].acompanhamento + ", " + consultaLista[i].pagamento + ";");
-			} else {
-				System.out.println("Opção" + j + ": " + "Consulta " + i + " - " + consultaLista[i]);
+	public void cancelar(Consulta consulta, Sistema sistema, Consulta consultaLista[], int id_consulta_selecionada) {
+		int i;
+		
+		for (i = 0; i < consultaLista.length; i++) {
+			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
+				consultaLista[i] = null;
+				break;
 			}
 		}
-		// classe que preserva horario
-		Consulta consultaOpcaoHorario = new Consulta();
-		// simula a escolha do usuário de cancelar a primeira consulta
-		int opcao = 1;
-		if (opcao == 1) {
-			// preservando em uma nova classe, para que seja possível remover da agenda
-			// utilizando como referencia o horario da classe
-			consultaOpcaoHorario.horario = consultaLista[0].horario;
-			// apagando
-			consultaLista[0] = null;
-			System.out.println("A consulta de opção: " + opcao + " foi cancelada.");
-		} else if (opcao != 1) {
-			// preservando em uma nova classe, para que seja possível remover da agenda
-			// utilizando como referencia o horario da classe
-			consultaOpcaoHorario.horario = consultaLista[opcao].horario;
-			// apagando
-			consultaLista[opcao] = null;
-			System.out.println("A consulta de opção: " + opcao + " foi cancelada.");
-		}
-		return consultaOpcaoHorario;
+		
+		System.out.println("A consulta de id: " + id_consulta_selecionada + " foi cancelada.");
 	}
 
 	public Consulta marcarAcompanhamento(Consulta consultaLista[], int opcao2) {
