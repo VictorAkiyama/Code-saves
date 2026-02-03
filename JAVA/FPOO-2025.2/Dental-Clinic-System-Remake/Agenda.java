@@ -72,8 +72,8 @@ public class Agenda {
 		}
 	}
 	
-	public void removerHorarioConsultaAgenda(Consulta consulta) {
-		switch(consulta.gethorario()) {
+	public void removerHorarioConsultaAgenda(int horario_consulta_selecionada) {
+		switch(horario_consulta_selecionada) {
 			case 8:
 				this.hora8 = false;
 				break;
