@@ -169,7 +169,7 @@ public class Consulta implements Atendimento {
 
 	public void cancelar(Consulta consulta, Sistema sistema, Consulta consultaLista[], int id_consulta_selecionada) {
 		int i;
-
+		
 		// torna a consulta selecionada em null na lista
 		for (i = 0; i < consultaLista.length; i++) {
 			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
@@ -181,29 +181,103 @@ public class Consulta implements Atendimento {
 		System.out.println("A consulta de id: " + id_consulta_selecionada + " foi cancelada.");
 	}
 
-	public Consulta marcarAcompanhamento(Consulta consultaLista[], int opcao2) {
+	public Consulta marcarAcompanhamento(Consulta consultaLista[], int id_consulta_selecionada) {
+		Consulta consulta = new Consulta();
+		
+		int i;
+		//pega a consulta com o id_consulta_selecionada
+		for (i = 0; i < consultaLista.length; i++) {
+			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
+				consulta = consultaLista[i];
+				break;
+			}
+		}
+		
+		// -- dado dentista --
+		System.out.println("\nDigite o nome do Dentista: ");
+		String nomeDentista = input.nextLine();
+		
+		// -- dado horario --
+		System.out.println("Digite o horário do acompanhamento: ");
+		int horario = input.nextInt();
+		input.nextLine(); // limpa o enter do input anterior
+		
 		Acompanhamento novoAcompanhamento = new Acompanhamento();
-		// simula o usuário marcando um retorno
-		Consulta consulta = consultaLista[opcao2];
-		consulta.acompanhamento = novoAcompanhamento.marcar(consulta, 9);
+		
+		//cria o acompanhamento com os dados 
+		novoAcompanhamento = novoAcompanhamento.marcar(consulta, nomeDentista, horario);
+		//coloca o acompanhamento na consulta
+		consulta.setacompanhamento(consulta, novoAcompanhamento.getnomeDentista(), novoAcompanhamento.gethorario());
+		
+		int j;
+		//recoloca a consulta na lista
+		for (j = 0; j < consultaLista.length; j++) {
+			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
+				consultaLista[i] = consulta;
+				break;
+			}
+		}
+		
 		return consulta;
 	}
 
-	public Consulta remarcarAcompanhamento(Consulta consultaLista[], int opcao2) {
+	public Consulta remarcarAcompanhamento(Consulta consultaLista[], int id_consulta_selecionada, Agenda agenda) {
+		Consulta consulta = new Consulta();
+		
+		int i;
+		//pega a consulta com o id_consulta_selecionada
+		for (i = 0; i < consultaLista.length; i++) {
+			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
+				consulta = consultaLista[i];
+				break;
+			}
+		}
+		
+		// -- dado dentista --
+		System.out.println("\nDigite o nome do Dentista: ");
+		String nomeDentista = input.nextLine();
+		
+		// -- dado horario --
+		System.out.println("Digite o horário do acompanhamento: ");
+		int horario = input.nextInt();
+		input.nextLine(); // limpa o enter do input anterior
+		
 		Acompanhamento novoAcompanhamento = new Acompanhamento();
-		// simula o usuário remarcando um retorno
-		Consulta consulta = consultaLista[opcao2];
-		consulta.acompanhamento = novoAcompanhamento.remarcar(consulta, 13);
-		;
+		
+		//cria o acompanhamento com os dados 
+		novoAcompanhamento = novoAcompanhamento.marcar(consulta, nomeDentista, horario);
+		//coloca o acompanhamento na consulta
+		consulta.setacompanhamento(consulta, novoAcompanhamento.getnomeDentista(), novoAcompanhamento.gethorario());
+		
+		int j;
+		//recoloca a consulta na lista
+		for (j = 0; j < consultaLista.length; j++) {
+			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
+				consultaLista[i] = consulta;
+				break;
+			}
+		}
+		
 		return consulta;
 	}
 
-	public Consulta cancelarAcompanhamento(Consulta consultaLista[], int opcao2) {
-		Acompanhamento novoAcompanhamento = new Acompanhamento();
-		// simula o usuário remarcando um retorno
-		Consulta consulta = consultaLista[opcao2];
-		consulta.acompanhamento = novoAcompanhamento.cancelar(consulta);
-		;
+	public Consulta cancelarAcompanhamento(Consulta consultaLista[], int id_consulta_selecionada, Agenda agenda) {
+		Consulta consulta = new Consulta();
+		
+		int i;
+		//pega a consulta com o id_consulta_selecionada
+		for (i = 0; i < consultaLista.length; i++) {
+			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
+				consulta = consultaLista[i];
+				break;
+			}
+		}
+		
+		Acompanhamento acompanhamentoCancelado = new Acompanhamento();
+		
+		acompanhamentoCancelado = acompanhamentoCancelado.cancelar(consulta);
+		consulta.setacompanhamento(consulta, acompanhamentoCancelado.getnomeDentista(), acompanhamentoCancelado.gethorario());
+		
 		return consulta;
 	}
 
@@ -252,8 +326,8 @@ public class Consulta implements Atendimento {
 		return acompanhamento;
 	}
 
-	public void setacompanhamento(Consulta consulta, int horario) {
-		this.acompanhamento = new Acompanhamento(consulta, horario);
+	public void setacompanhamento(Consulta consulta, String nomeDentista, int horario) {
+		this.acompanhamento = new Acompanhamento(consulta, nomeDentista, horario);
 	}
 
 	public Pagamento getpagamento() {
