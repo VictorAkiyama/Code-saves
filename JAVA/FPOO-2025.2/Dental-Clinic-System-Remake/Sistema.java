@@ -26,6 +26,9 @@ public class Sistema {
 	//horario da consulta selecionada, das opções remarcar e cancelar consulta
 	int horario_consulta_selecionada = 0;
 	
+	//horario de acompanhamento, das opções marcar, remarcar e cancelar acompanhamento
+	int horario_acompanhamento_consulta_selecionada = 0;
+	
 	public void interacao(int opcao, Consulta consulta, Sistema sistema, Consulta consultaLista[], Agenda agenda) {
 		//lista de opções
 		if (opcao == 1) {
@@ -72,22 +75,49 @@ public class Sistema {
 			}
 		}
 		else if (opcao == 4) {
-			System.out.println("Opção para marcar acompanhamento selecionada\nQual das consultas deseja marcar um acompanhamento:");
-			sistema.mostrarListadeConsultas(consultaLista);
-			//simula o usuário selecionando uma das consultas
-			consulta = consulta.marcarAcompanhamento(consultaLista, 0);
+			System.out.println("Opção para marcar acompanhamento selecionada");
+			id_consulta_selecionada = selecionarIDconsultaNaListadeConsultas(consultaLista);
+			if (id_consulta_selecionada >= 0) {
+				consulta = consulta.marcarAcompanhamento(consultaLista, id_consulta_selecionada);
+				chamaColocaHorarioAcompanhamentoAgenda(consulta, agenda);
+				mostrarListadeConsultas(consultaLista);
+				chamaMostrarAgenda(agenda);
+			}
+			// se não foi encontrada, volta para o menu principal
+			else {
+				return;
+			}
 		}
 		else if (opcao == 5) {
-			System.out.println("Opção para remarcar acompanhamento selecionada\nQual das consultas deseja remarcar um acompanhamento:");
-			sistema.mostrarListadeConsultas(consultaLista);
-			//simula o usuário selecionando uma das consultas
-			consulta = consulta.remarcarAcompanhamento(consultaLista, 0);
+			System.out.println("Opção para remarcar acompanhamento selecionada");
+			id_consulta_selecionada = selecionarIDconsultaNaListadeConsultas(consultaLista);
+			if (id_consulta_selecionada >= 0) {
+				horario_acompanhamento_consulta_selecionada = pegarHorarioAcompanhamentoDaConsultaSelecionada(consultaLista, id_consulta_selecionada); // pega horario do acompanhamento da consulta selecionada
+				chamaRemoverHorarioAcompanhamentoAgenda(agenda, horario_acompanhamento_consulta_selecionada);
+				consulta = consulta.remarcarAcompanhamento(consultaLista, id_consulta_selecionada, agenda);
+				chamaColocaHorarioAcompanhamentoAgenda(consulta, agenda);
+				mostrarListadeConsultas(consultaLista);
+				chamaMostrarAgenda(agenda);
+			}
+			// se não foi encontrada, volta para o menu principal
+			else {
+				return;
+			}
 		}
 		else if (opcao == 6) {
-			System.out.println("Opção para cancelar acompanhamento selecionada\nQual das consultas deseja cancelar o acompanhamento:");
-			sistema.mostrarListadeConsultas(consultaLista);
-			//simula o usuário selecionando uma das consultas
-			consulta = consulta.cancelarAcompanhamento(consultaLista, 0);
+			System.out.println("Opção para cancelar acompanhamento selecionada");
+			id_consulta_selecionada = selecionarIDconsultaNaListadeConsultas(consultaLista);
+			if (id_consulta_selecionada >= 0) {
+				horario_acompanhamento_consulta_selecionada = pegarHorarioAcompanhamentoDaConsultaSelecionada(consultaLista, id_consulta_selecionada); // pega horario do acompanhamento da consulta selecionada
+				chamaRemoverHorarioAcompanhamentoAgenda(agenda, horario_acompanhamento_consulta_selecionada);
+				consulta = consulta.cancelarAcompanhamento(consultaLista, id_consulta_selecionada, agenda);
+				mostrarListadeConsultas(consultaLista);
+				chamaMostrarAgenda(agenda);
+			}
+			// se não foi encontrada, volta para o menu principal
+			else {
+				return;
+			}
 		}
 		else {
 			System.out.println(opcao + " Não é uma opção válida, tente novamente");
@@ -135,7 +165,7 @@ public class Sistema {
 				System.out.println(j + " Nenhuma consulta marcada aqui.");
 			}
 			else {
-				System.out.println(j + " ID: " + consultaLista[i].getid_consulta() + ", " + consultaLista[i].getdentista().getnome() + ", " + consultaLista[i].getpaciente().getnome() + ", " + consultaLista[i].gethorario() + ":00, " + consultaLista[i].getdetalhes() + ", " + consultaLista[i].getacompanhamento() + ", " + consultaLista[i].getpagamento() + ";");
+				System.out.println(j + " ID: " + consultaLista[i].getid_consulta() + ", Dr." + consultaLista[i].getdentista().getnome() + ", paciente: " + consultaLista[i].getpaciente().getnome() + ", horário: " + consultaLista[i].gethorario() + ":00, Detalhes: " + consultaLista[i].getdetalhes() + ", " + consultaLista[i].getacompanhamento() + ", " + consultaLista[i].getpagamento() + ";");
 			}
 			j++; // aumenta o número posição
 		}
@@ -192,6 +222,22 @@ public class Sistema {
 		return horarioDaConsultaNaAgenda;
 	}
 	
+	public int pegarHorarioAcompanhamentoDaConsultaSelecionada(Consulta consultaLista[], int id_consulta_selecionada) {
+		int i;
+		int horarioDoAcompanhamentoNaAgenda = 0;
+		
+		for (i = 0; i < consultaLista.length; i++) {
+			// procura pela consulta com o ID selecionado
+			if (consultaLista[i] != null && consultaLista[i].getid_consulta() == id_consulta_selecionada) {
+				// pega o HORARIO do acompanhamento da consulta procurada na lista
+				horarioDoAcompanhamentoNaAgenda = consultaLista[i].getacompanhamento().gethorario();
+				break;
+			}
+		}
+		
+		return horarioDoAcompanhamentoNaAgenda;
+	}
+	
 	public void chamaColocaHorarioConsultaAgenda(Consulta consulta, Agenda agenda) {
 		agenda.colocaHorarioConsultaAgenda(consulta);
 	}
@@ -200,12 +246,12 @@ public class Sistema {
 		agenda.removerHorarioConsultaAgenda(horario_consulta_selecionada);
 	}
 	
-	public void chamaColocaHorarioAcompanhamentoAgenda(Consulta consultaInteracao, Agenda agenda) {
-		agenda.colocaHorarioAcompanhamentoAgenda(consultaInteracao);
+	public void chamaColocaHorarioAcompanhamentoAgenda(Consulta consulta, Agenda agenda) {
+		agenda.colocaHorarioAcompanhamentoAgenda(consulta);
 	}
 	
-	public void chamaRemoverHorarioAcompanhamentoAgenda(Consulta consultaInteracaoAnterior, Agenda agenda) {
-		agenda.removerHorarioAcompanhamentoAgenda(consultaInteracaoAnterior);
+	public void chamaRemoverHorarioAcompanhamentoAgenda(Agenda agenda, int horario_acompanhamento_consulta_selecionada) {
+		agenda.removerHorarioAcompanhamentoAgenda(horario_acompanhamento_consulta_selecionada);
 	}
 	
 	public void chamaMostrarAgenda(Agenda agenda) {
