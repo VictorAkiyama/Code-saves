@@ -112,8 +112,8 @@ public class Agenda {
 		}
 	}
 	
-	public void colocaHorarioAcompanhamentoAgenda(Consulta consultaInteracao) {
-		switch(consultaInteracao.getacompanhamento().gethorario()) {
+	public void colocaHorarioAcompanhamentoAgenda(Consulta consulta) {
+		switch(consulta.getacompanhamento().gethorario()) {
 			case 8:
 				this.hora8 = true;
 				break;
@@ -152,8 +152,8 @@ public class Agenda {
 		}
 	}
 	
-	public void removerHorarioAcompanhamentoAgenda(Consulta consultaInteracaoAnterior) {
-		switch(consultaInteracaoAnterior.getacompanhamento().gethorario()) {
+	public void removerHorarioAcompanhamentoAgenda(int horario_acompanhamento_consulta_selecionada) {
+		switch(horario_acompanhamento_consulta_selecionada) {
 			case 8:
 				this.hora8 = false;
 				break;
