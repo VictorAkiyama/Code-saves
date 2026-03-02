@@ -165,7 +165,12 @@ public class Sistema {
 				System.out.println(j + " Nenhuma consulta marcada aqui.");
 			}
 			else {
-				System.out.println(j + " ID: " + consultaLista[i].getid_consulta() + ", Dr." + consultaLista[i].getdentista().getnome() + ", paciente: " + consultaLista[i].getpaciente().getnome() + ", horário: " + consultaLista[i].gethorario() + ":00, Detalhes: " + consultaLista[i].getdetalhes() + ", " + consultaLista[i].getacompanhamento() + ", " + consultaLista[i].getpagamento() + ";");
+				if (consultaLista[i].getacompanhamento().gethorario() != 0) {
+					System.out.println(j + " ID: " + consultaLista[i].getid_consulta() + ", Dr." + consultaLista[i].getdentista().getnome() + ", paciente: " + consultaLista[i].getpaciente().getnome() + ", horário: " + consultaLista[i].gethorario() + ":00, Detalhes: " + consultaLista[i].getdetalhes() + ", " + consultaLista[i].getacompanhamento() + ", " + consultaLista[i].getpagamento() + ";");
+				}
+				else {
+					System.out.println(j + " ID: " + consultaLista[i].getid_consulta() + ", Dr." + consultaLista[i].getdentista().getnome() + ", paciente: " + consultaLista[i].getpaciente().getnome() + ", horário: " + consultaLista[i].gethorario() + ":00, Detalhes: " + consultaLista[i].getdetalhes() + ", Nenhum acompanhamento marcado, " + consultaLista[i].getpagamento() + ";");
+				}
 			}
 			j++; // aumenta o número posição
 		}
