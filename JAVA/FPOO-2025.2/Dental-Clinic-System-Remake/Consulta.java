@@ -80,13 +80,6 @@ public class Consulta implements Atendimento {
 		// -- cria consulta --
 		Consulta consultaMarcada = sistema.CriarConsulta(id, dentista, paciente, horario, detalhes, acompanhamento, pagamento);
 		
-		/*
-		Dentista dentista = new Dentista("Luis", "M", "Mestrado", "Odontopediatria");
-		Paciente paciente = new Paciente("Ricardo", "M");
-		Pagamento pagamento = new Pagamento(150.00, consulta, "Pix");
-		Acompanhamento acompanhamento = new Acompanhamento();
-		Consulta consultaSimulacao = sistema.CriarConsulta(2355, dentista, paciente, 15, "Implante dentário", acompanhamento, pagamento);
-		*/
 		// mostra de foi marcado com sucesso ou não
 		if (consultaMarcada.paciente != null && consultaMarcada.dentista != null) {
 			System.out.println("\nConsulta " + consultaMarcada.id_consulta + ", marcada com Dr." + consultaMarcada.dentista.getnome() + " para " + consultaMarcada.paciente.getnome() + " para às " + consultaMarcada.horario + ":00\nDetalhes: " + consultaMarcada.detalhes + ", " + consultaMarcada.pagamento + "\n");
@@ -97,18 +90,6 @@ public class Consulta implements Atendimento {
 	}
 
 	public Consulta remarcar(Consulta consulta, Sistema sistema, Agenda agenda, int id_consulta_selecionada) {
-		
-		/* remove da agenda o horario da consulta antiga
-		sistema.chamaRemoverHorarioConsultaAgenda(consulta, agenda)
-
-		System.out.println("\nDigite o nome do Doutor, paciente, horário, detalhes e forma de pagamento da consulta:  ");
-		// simulação do usuário digitando os dados
-		Dentista dentista = new Dentista("Luis", "M", "Mestrado", "Odontopediatria");
-		Paciente paciente = new Paciente("Ricardo", "M");
-		Pagamento pagamento = new Pagamento(150.00, consulta, "Pix");
-		Acompanhamento acompanhamento = new Acompanhamento();
-		// remarcado para as 18 horas
-		Consulta consultaSimulacao = sistema.CriarConsulta(2355, dentista, paciente, 18, "Implante dentário", acompanhamento, pagamento); */
 		
 		// usuário digitando os dados
 		// -- dados dentista --
