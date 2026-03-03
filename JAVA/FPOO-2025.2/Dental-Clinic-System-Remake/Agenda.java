@@ -265,4 +265,39 @@ public class Agenda {
 		this.hora18 = false;
 		System.out.println("\nA agenda foi limpa.");
 	}
+	
+	//gets
+	public boolean gethora8() {
+		return hora8;
+	}
+	public boolean gethora9() {
+		return hora9;
+	}
+	public boolean gethora10() {
+		return hora10;
+	}
+	public boolean gethora11() {
+		return hora11;
+	}
+	public boolean gethora12() {
+		return hora12;
+	}
+	public boolean gethora13() {
+		return hora13;
+	}
+	public boolean gethora14() {
+		return hora14;
+	}
+	public boolean gethora15() {
+		return hora15;
+	}
+	public boolean gethora16() {
+		return hora16;
+	}
+	public boolean gethora17() {
+		return hora17;
+	}
+	public boolean gethora18() {
+		return hora18;
+	}
 }
