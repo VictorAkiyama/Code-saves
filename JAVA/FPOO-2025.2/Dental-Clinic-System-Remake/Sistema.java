@@ -33,7 +33,7 @@ public class Sistema {
 		//lista de opções
 		if (opcao == 1) {
 			System.out.println("Opção para marcar consulta selecionada");
-			consulta = consulta.marcar(consulta, sistema, numero_id);
+			consulta = consulta.marcar(consulta, sistema, numero_id, agenda);
 			numero_id = incrementaID(numero_id);
 			chamaColocaHorarioConsultaAgenda(consulta, agenda);
 			colocarNovaConsultaEmLista(consulta, consultaLista);
@@ -78,7 +78,7 @@ public class Sistema {
 			System.out.println("Opção para marcar acompanhamento selecionada");
 			id_consulta_selecionada = selecionarIDconsultaNaListadeConsultas(consultaLista);
 			if (id_consulta_selecionada >= 0) {
-				consulta = consulta.marcarAcompanhamento(consultaLista, id_consulta_selecionada);
+				consulta = consulta.marcarAcompanhamento(consultaLista, id_consulta_selecionada, agenda);
 				chamaColocaHorarioAcompanhamentoAgenda(consulta, agenda);
 				mostrarListadeConsultas(consultaLista);
 				chamaMostrarAgenda(agenda);
