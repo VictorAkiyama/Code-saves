@@ -30,8 +30,10 @@ public class Consulta implements Atendimento {
 
 	Scanner input = new Scanner(System.in); //objeto input
 	
+	int resultadoVerificador = 0; //usado para determinar se o horario faz sentido ou não 
+	
 	// métodos
-	public Consulta marcar(Consulta consulta, Sistema sistema, int numero_id) {
+	public Consulta marcar(Consulta consulta, Sistema sistema, int numero_id, Agenda agenda) {
 		// usuário digitando os dados
 		// -- dados dentista --
 		System.out.println("Digite o nome do Dentista: ");
@@ -67,6 +69,10 @@ public class Consulta implements Atendimento {
 		int horario = input.nextInt();
 		input.nextLine(); // limpa o enter do input anterior
 		
+		//verifica o horario, se o horario faz sentido o retora, senão continua a pedir horario
+		horario = verificaHorarioConsulta(horario);
+		
+		
 		// -- dado detalhes --
 		System.out.println("Digite os detalhes do procedimento da consulta: ");
 		String detalhes = input.nextLine();
@@ -80,7 +86,7 @@ public class Consulta implements Atendimento {
 		// -- cria consulta --
 		Consulta consultaMarcada = sistema.CriarConsulta(id, dentista, paciente, horario, detalhes, acompanhamento, pagamento);
 		
-		// mostra de foi marcado com sucesso ou não
+		// mostra se foi marcado com sucesso ou não
 		if (consultaMarcada.paciente != null && consultaMarcada.dentista != null) {
 			System.out.println("\nConsulta " + consultaMarcada.id_consulta + ", marcada com Dr." + consultaMarcada.dentista.getnome() + " para " + consultaMarcada.paciente.getnome() + " para às " + consultaMarcada.horario + ":00\nDetalhes: " + consultaMarcada.detalhes + ", " + consultaMarcada.pagamento + "\n");
 		} else {
@@ -126,6 +132,9 @@ public class Consulta implements Atendimento {
 		int horario = input.nextInt();
 		input.nextLine(); // limpa o enter do input anterior
 		
+		//verifica o horario, se o horario faz sentido o retora, senão continua a pedir horario
+		horario = verificaHorarioConsulta(horario);
+		
 		// -- dado detalhes --
 		System.out.println("Digite os detalhes do procedimento da consulta: ");
 		String detalhes = input.nextLine();
@@ -139,7 +148,7 @@ public class Consulta implements Atendimento {
 		// -- cria consulta --
 		Consulta consultaRemarcada = sistema.CriarConsulta(id, dentista, paciente, horario, detalhes, acompanhamento, pagamento);
 		
-		// mostra de foi marcado com sucesso ou não
+		// mostra se foi remarcado com sucesso ou não
 		if (consultaRemarcada.paciente != null && consultaRemarcada.dentista != null) {
 			System.out.println("\nConsulta " + consultaRemarcada.id_consulta + ", foi remarcada com Dr." + consultaRemarcada.dentista.getnome() + " para " + consultaRemarcada.paciente.getnome() + " para às " + consultaRemarcada.horario + ":00\nDetalhes: " + consultaRemarcada.detalhes + ", " + consultaRemarcada.pagamento + "\n");
 		} else {
@@ -162,7 +171,7 @@ public class Consulta implements Atendimento {
 		System.out.println("A consulta de id: " + id_consulta_selecionada + " foi cancelada.");
 	}
 
-	public Consulta marcarAcompanhamento(Consulta consultaLista[], int id_consulta_selecionada) {
+	public Consulta marcarAcompanhamento(Consulta consultaLista[], int id_consulta_selecionada, Agenda agenda) {
 		Consulta consulta = new Consulta();
 		
 		int i;
@@ -182,6 +191,9 @@ public class Consulta implements Atendimento {
 		System.out.println("Digite o horário do acompanhamento: ");
 		int horario = input.nextInt();
 		input.nextLine(); // limpa o enter do input anterior
+		
+		//verifica o horario, se o horario faz sentido o retora, senão continua a pedir horario
+		horario = verificaHorarioAcompanhamento(horario);
 		
 		Acompanhamento novoAcompanhamento = new Acompanhamento();
 		
@@ -222,6 +234,8 @@ public class Consulta implements Atendimento {
 		System.out.println("Digite o horário do acompanhamento: ");
 		int horario = input.nextInt();
 		input.nextLine(); // limpa o enter do input anterior
+		//verifica o horario, se o horario faz sentido o retora, senão continua a pedir horario
+		horario = verificaHorarioAcompanhamento(horario);
 		
 		Acompanhamento novoAcompanhamento = new Acompanhamento();
 		
@@ -261,7 +275,60 @@ public class Consulta implements Atendimento {
 		
 		return consulta;
 	}
-
+	
+	//verifica o horario digitado se está no período de atendimento da clínica
+	public int verificaHorarioConsulta(int horario) {
+		if (horario < 8 || horario > 18) {
+			System.out.println("\n\nO horário digitado não é disponível no horario de atendimento da clínica.\n\n");
+			System.out.println("Digite o horário da consulta: ");
+			horario = input.nextInt();
+			input.nextLine(); // limpa o enter do input anterior
+			horario = verificaHorarioConsulta(horario);
+			return horario;
+		}
+		else {
+			return horario;
+		}
+	}
+	public int verificaHorarioAcompanhamento(int horario) {
+		if (horario < 8 || horario > 18) {
+			System.out.println("\n\nO horário digitado não é disponível no horario de atendimento da clínica.\n\n");
+			System.out.println("Digite o horário do acompanhamento: ");
+			horario = input.nextInt();
+			input.nextLine(); // limpa o enter do input anterior
+			horario = verificaHorarioAcompanhamento(horario);
+			return horario;
+		}
+		else {
+			return horario;
+		}
+	}
+	
+	/* TODO
+	//verifica se o horario está em conflito com algum outro na agenda
+	public void verificaHorarioConsultaNaAgenda(int horario, Agenda agenda) {
+		switch (horario) {
+			case 8:
+				if (agenda.gethora8() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+				}
+				break;
+			case 9:
+				if (agenda.gethora8() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+				}
+				break;
+		}
+	}
+	*/
 	// gets e sets
 	public int getid_consulta() {
 		return id_consulta;
