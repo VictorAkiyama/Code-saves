@@ -30,8 +30,6 @@ public class Consulta implements Atendimento {
 
 	Scanner input = new Scanner(System.in); //objeto input
 	
-	int resultadoVerificador = 0; //usado para determinar se o horario faz sentido ou não 
-	
 	// métodos
 	public Consulta marcar(Consulta consulta, Sistema sistema, int numero_id, Agenda agenda) {
 		// usuário digitando os dados
@@ -57,6 +55,10 @@ public class Consulta implements Atendimento {
 		
 		// -- dados pagamento --
 		System.out.println("Digite o valor da consulta: ");
+		while (!input.hasNextDouble()) {
+		    String inputInvalido = input.next(); // lê e descarta o input inválido
+		    System.out.println("\n\n '" + inputInvalido + "' Não é válido. Tente denovo: ");
+		}
 		double valorConsulta = input.nextDouble();
 		input.nextLine(); // limpa o enter do input anterior
 		System.out.println("Digite a forma de pagamento: ");
@@ -66,6 +68,11 @@ public class Consulta implements Atendimento {
 		
 		// -- dado horario --
 		System.out.println("Digite o horário da consulta: ");
+		// fica iterando indefinidamente até um input válido
+		while (!input.hasNextInt()) {
+		    String inputInvalido = input.next(); // lê e descarta o input inválido
+		    System.out.println("\n\n '" + inputInvalido + "' Não é válido. Tente denovo: ");
+		}
 		int horario = input.nextInt();
 		input.nextLine(); // limpa o enter do input anterior
 		
@@ -120,6 +127,10 @@ public class Consulta implements Atendimento {
 		
 		// -- dados pagamento --
 		System.out.println("Digite o valor da consulta: ");
+		while (!input.hasNextDouble()) {
+		    String inputInvalido = input.next(); // lê e descarta o input inválido
+		    System.out.println("\n\n '" + inputInvalido + "' Não é válido. Tente denovo: ");
+		}
 		double valorConsulta = input.nextDouble();
 		input.nextLine(); // limpa o enter do input anterior
 		System.out.println("Digite a forma de pagamento: ");
@@ -129,6 +140,11 @@ public class Consulta implements Atendimento {
 		
 		// -- dado horario --
 		System.out.println("Digite o horário da consulta: ");
+		// fica iterando indefinidamente até um input válido
+		while (!input.hasNextInt()) {
+		    String inputInvalido = input.next(); // lê e descarta o input inválido
+		    System.out.println("\n\n '" + inputInvalido + "' Não é válido. Tente denovo: ");
+		}
 		int horario = input.nextInt();
 		input.nextLine(); // limpa o enter do input anterior
 		
@@ -189,13 +205,20 @@ public class Consulta implements Atendimento {
 		
 		// -- dado horario --
 		System.out.println("Digite o horário do acompanhamento: ");
+		// fica iterando indefinidamente até um input válido
+		while (!input.hasNextInt()) {
+		    String inputInvalido = input.next(); // lê e descarta o input inválido
+		    System.out.println("\n\n '" + inputInvalido + "' Não é válido. Tente denovo: ");
+		}
 		int horario = input.nextInt();
 		input.nextLine(); // limpa o enter do input anterior
 		
-		//verifica o horario, se o horario faz sentido o retora, senão continua a pedir horario
-		horario = verificaHorarioAcompanhamento(horario);
-		
 		Acompanhamento novoAcompanhamento = new Acompanhamento();
+		
+		//verifica o horario, se o horario faz sentido o retora, senão continua a pedir horario
+		horario = novoAcompanhamento.verificaHorarioAcompanhamento(horario);
+		//verifica se o horario faz conflito na agenda
+		horario = novoAcompanhamento.verificaHorarioAcompanhamentoNaAgenda(horario, agenda);
 		
 		//cria o acompanhamento com os dados 
 		novoAcompanhamento = novoAcompanhamento.marcar(consulta, nomeDentista, horario);
@@ -232,12 +255,19 @@ public class Consulta implements Atendimento {
 		
 		// -- dado horario --
 		System.out.println("Digite o horário do acompanhamento: ");
+		// fica iterando indefinidamente até um input válido
+		while (!input.hasNextInt()) {
+		    String inputInvalido = input.next(); // lê e descarta o input inválido
+		    System.out.println("\n\n '" + inputInvalido + "' Não é válido. Tente denovo: ");
+		}
 		int horario = input.nextInt();
 		input.nextLine(); // limpa o enter do input anterior
-		//verifica o horario, se o horario faz sentido o retora, senão continua a pedir horario
-		horario = verificaHorarioAcompanhamento(horario);
 		
 		Acompanhamento novoAcompanhamento = new Acompanhamento();
+		
+		//verifica o horario, se o horario faz sentido o retora, senão continua a pedir horario
+		horario = novoAcompanhamento.verificaHorarioAcompanhamento(horario);
+		horario = novoAcompanhamento.verificaHorarioAcompanhamentoNaAgenda(horario, agenda);
 		
 		//cria o acompanhamento com os dados 
 		novoAcompanhamento = novoAcompanhamento.marcar(consulta, nomeDentista, horario);
@@ -290,23 +320,9 @@ public class Consulta implements Atendimento {
 			return horario;
 		}
 	}
-	public int verificaHorarioAcompanhamento(int horario) {
-		if (horario < 8 || horario > 18) {
-			System.out.println("\n\nO horário digitado não é disponível no horario de atendimento da clínica.\n\n");
-			System.out.println("Digite o horário do acompanhamento: ");
-			horario = input.nextInt();
-			input.nextLine(); // limpa o enter do input anterior
-			horario = verificaHorarioAcompanhamento(horario);
-			return horario;
-		}
-		else {
-			return horario;
-		}
-	}
 	
-	/* TODO
-	//verifica se o horario está em conflito com algum outro na agenda
-	public void verificaHorarioConsultaNaAgenda(int horario, Agenda agenda) {
+	//verifica se o horario da consulta está em conflito com algum outro na agenda
+	public int verificaHorarioConsultaNaAgenda(int horario, Agenda agenda) {
 		switch (horario) {
 			case 8:
 				if (agenda.gethora8() == true) {
@@ -315,20 +331,115 @@ public class Consulta implements Atendimento {
 					horario = input.nextInt();
 					input.nextLine(); // limpa o enter do input anterior
 					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
 				}
-				break;
+				return horario;
 			case 9:
-				if (agenda.gethora8() == true) {
+				if (agenda.gethora9() == true) {
 					System.out.println("\nO horário já está ocupado, escolha outro.\n");
 					System.out.println("Digite o horário da consulta: ");
 					horario = input.nextInt();
 					input.nextLine(); // limpa o enter do input anterior
 					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
 				}
-				break;
+				return horario;
+			case 10:
+				if (agenda.gethora10() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
+				}
+				return horario;
+			case 11:
+				if (agenda.gethora11() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
+				}
+				return horario;
+			case 12:
+				if (agenda.gethora12() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
+				}
+				return horario;
+			case 13:
+				if (agenda.gethora13() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
+				}
+				return horario;
+			case 14:
+				if (agenda.gethora14() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
+				}
+				return horario;
+			case 15:
+				if (agenda.gethora15() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
+				}
+				return horario;
+			case 16:
+				if (agenda.gethora16() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
+				}
+				return horario;
+			case 17:
+				if (agenda.gethora17() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
+				}
+				return horario;
+			case 18:
+				if (agenda.gethora18() == true) {
+					System.out.println("\nO horário já está ocupado, escolha outro.\n");
+					System.out.println("Digite o horário da consulta: ");
+					horario = input.nextInt();
+					input.nextLine(); // limpa o enter do input anterior
+					horario = verificaHorarioConsulta(horario);
+					horario = verificaHorarioConsultaNaAgenda(horario, agenda);
+				}
+				return horario;
+			default:
+				System.out.println("ERRO, talvez o verificador de horário falhou e não chegou a esse método corretamente");
+				return horario;
 		}
 	}
-	*/
+	
 	// gets e sets
 	public int getid_consulta() {
 		return id_consulta;
