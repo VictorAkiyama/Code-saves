@@ -24,6 +24,11 @@ public class Main {
 			System.out.println("================================================\n\n");
 			//seleção opção usuário
 			System.out.println("Digite o número de uma das opções acima: ");
+			// fica iterando indefinidamente até um input válido
+			while (!input.hasNextInt()) {
+			    String inputInvalido = input.next(); // lê e descarta o input inválido
+			    System.out.println("\n\n '" + inputInvalido + "' Não é válido. Tente denovo: ");
+			}
 			int opcao = input.nextInt();
 			input.nextLine();
 			sistema.interacao(opcao, consulta, sistema, consultaLista, agenda);
