@@ -120,7 +120,7 @@ public class Sistema {
 			}
 		}
 		else {
-			System.out.println(opcao + " Não é uma opção válida, tente novamente");
+			System.out.println("\n\n" + opcao + " Não é uma opção válida, tente novamente");
 		}
 	}
 	
