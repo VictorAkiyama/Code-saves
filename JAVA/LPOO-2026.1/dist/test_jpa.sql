@@ -10,9 +10,14 @@ create table PESSOA (
     IDADE int not null
 );
 
-insert into PESSOA (NOME_PESSOA, IDADE)
-values ("Juscelino Kubitschek", 132);
+insert into PESSOA (NOME_PESSOA, IDADE) values 
+	("Cândido Portinari", 122),
+    ("Pablo Picasso", 144),
+    ("Pintor 3", 72),
+    ("Pintor 4", 56),
+    ("Pintor 5", 45);
 
+drop user if exists 'test'@'localhost';
 CREATE USER 'test'@'localhost' IDENTIFIED BY '123456';
 GRANT ALL PRIVILEGES ON test_jpa.* TO 'test'@'localhost';
 FLUSH PRIVILEGES;
